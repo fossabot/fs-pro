@@ -4,14 +4,14 @@
 
 fs-pro is a package to work with files and dir more easly
 
-# working with Files
-
-## installtion
+# installtion
 ```
 npm i fs-pro
 ```
 
-## examles
+# working with Files
+
+## examples
 ```js
 const { File } = require('fs-pro');
 // or
@@ -137,8 +137,24 @@ file.watch((currentStatus, prevStatus) => {
 // to delete the file
 file.delete();
 ```
+### parent( parent: Dir | string )
+```js
+// to move the file to a dir 
+const { File, Dir } = require('fs-pro');
+
+var file = new File('something.txt');
+
+// a way
+var dir = new Dir('test')
+
+file.parent(dir);
+
+// another way
+file.parent('test');
+
+```
 # working with Dirs
-## examles
+## examples
 ```js
 const { Dir } = require('fs-pro');
 // or
@@ -212,25 +228,29 @@ dir.foreach(function(thing){
 ```js
 // this method will loop throw every single dir 
 // in the dir
-fs.foreachDir(function(dir){
+dir.foreachDir(function(dir){
     console.log(dir.path)
 });
 ```
 ### foreachFile(func: (File: File) => any)
 ```js
 // this method will loop throw every single file in the dir
-fs.forforeachFile(function(file){
+dir.forforeachFile(function(file){
     console.log(file.createdAt.toUTCString());
 })
 ```
 ### createFile( fileName: string )
 ```js
 // this method will create a file in the dir
-fs.createFile('$fileName')
+dir.createFile('$fileName')
+```
+### createDir( dirname: stirng )
+```js
+dir.createDir('new_dir');
 ```
 ### getFile( fileName: string ):File
 ```js
-// this method will loops throw all the files and 
+// this method will loops throw all the dir and 
 // return the first match
 var file = dir.getFile('$fileName')
 ```
@@ -238,7 +258,19 @@ var file = dir.getFile('$fileName')
 ```js
 // this method will loops throw all the files and 
 // return all the matchs as an array
-var file = dir.getFiles('$name')
+var files = dir.getFiles('$name')
+```
+### getDir( dirName:string )
+```js
+// this method will loops throw all the Dirs and 
+// return all the matchs as an array
+var dir = dir.getDir('$name')
+```
+### getDirs( dirName:string )
+```js
+// this method will loops throw all the Dirs and 
+// return all the matchs as an array
+var dirs = dir.getDirs('$name')
 ```
 ### deleteEvery( match: string )
 ```js

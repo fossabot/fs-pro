@@ -221,4 +221,30 @@ export default class Dir {
         return path.relative('.', this.path);
     }
 
+    createDir(name) {
+        this.files.push(new Dir(path.join(this.name, name)));
+        this.updateStatus();
+    }
+
+    getDir(name): Dir {
+        var dirs: Dir[];
+        this.foreachDir(function (dir) {
+            if (dir.name === name) {
+                dirs.push(dir);
+            }
+            return dir;
+        });
+        return dirs[0];
+    }
+
+    getDirs(name): Dir[] {
+        var dirs: Dir[];
+        this.foreachDir(function (dir) {
+            if (dir.name === name) {
+                dirs.push(dir);
+            }
+            return dir;
+        });
+        return dirs;
+    }
 }

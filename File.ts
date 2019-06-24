@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import getSize from './getSize';
+import Dir from './Dir';
 
 type callback = (value: any, lineNumber: number) => any;
 
@@ -263,6 +264,14 @@ export default class File {
             this.refresh();
             func(convertStatus(curr), convertStatus(prev));
         });
+    }
+    parent(dir: Dir | string) {
+        if (dir instanceof Dir) {
+            this.moveTo(dir.relativePath());
+        } else {
+            var newDir = new Dir(dir);
+            this.moveTo(newDir.relativePath());
+        }
     }
 }
 
