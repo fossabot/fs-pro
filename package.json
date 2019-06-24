@@ -1,6 +1,6 @@
 {
   "name": "fs-pro",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "a package to work with files and dir more easly",
   "main": "out/index.js",
   "scripts": {
