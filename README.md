@@ -5,6 +5,12 @@
 pro-fs is a package to work with files and dir more easly
 
 # working with Files
+
+## installtion
+```
+npm i fs-pro
+```
+
 ## examles
 ```js
 const { File } = require('pro-fs');
@@ -62,7 +68,7 @@ file.readLines(function(lineText, lineNumber){
     }
 })
 ```
-### clear
+### clear()
 ``` js
 // to clear the files
 file.clear();
