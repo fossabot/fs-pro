@@ -1,17 +1,20 @@
 {
   "name": "fs-pro",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "a package to work with files and dir more easly",
   "main": "out/index.js",
   "scripts": {
-    "publish": "tsc test --outdir out && git add -A && git push github master"
+    "publish": "tsc test --outdir out && git add -A && git commit -a -m \"..\" && git push github master"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AliBasicCoder/fs-pro.git"
   },
-  "keywords": [],
-  "author": "me",
+  "keywords": [
+    "fs",
+    "smart"
+  ],
+  "author": "AliBasicCoder",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/AliBasicCoder/fs-pro/issues"
