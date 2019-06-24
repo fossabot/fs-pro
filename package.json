@@ -10,10 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/AliBasicCoder/fs-pro.git"
   },
-  "keywords": [
-    "setup",
-    "easy"
-  ],
+  "keywords": [],
   "author": "me",
   "license": "MIT",
   "bugs": {
