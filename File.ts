@@ -206,7 +206,7 @@ export default class File {
                 this.content = content;
                 this.lines = this.content.split('\n');
                 this.lineCount = this.lines.length;
-                this.buffer = new Buffer(content, this.enconding);
+                this.buffer = Buffer.from(content, this.enconding);
                 this.editStatus();
             }
         } catch (err) {
@@ -246,7 +246,7 @@ export default class File {
             this.content = content;
             this.lines = this.content.split('\n');
             this.lineCount = this.lines.length;
-            this.buffer = new Buffer(this.content, this.enconding);
+            this.buffer = Buffer.from(this.content, this.enconding);
         } catch (err) {
             throw err;
         }
