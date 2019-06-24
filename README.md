@@ -98,6 +98,11 @@ file.moveTo('$dist')
 // to refresh file data
 file.refresh();
 ```
+### relativePath()
+```js
+// will return the realtive path
+var rPath = file.relativePath()
+```
 ### fileStatus
 ```js
 // to get the file status
@@ -179,7 +184,7 @@ dir.rename('$newName')
 // it will watch every single file in the dir
 dir.watch(changedFile => {
    // the function will path the hole file that is changed
-   console.log(`the changed file path is ${file.path}`) 
+   console.log(`the changed file path is ${changedFile.path}`) 
 });
 ```
 ### filter( func: ( fileOrDir: File | Dir ) => any )
