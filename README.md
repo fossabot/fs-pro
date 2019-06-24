@@ -1,8 +1,8 @@
-# pro-fs
-[![npm version](https://img.shields.io/static/v1.svg?label=npm%20version&message=1.0.0&color=green)](https://www.npmjs.com/package/pro-fs)
-[![LICENSE](https://img.shields.io/static/v1.svg?label=LICENSE&message=MIT&color=green)](https://github.com/AliBasicCoder/pro-fs/blob/master/LICENSE)
+# fs-pro
+[![npm version](https://img.shields.io/static/v1.svg?label=npm%20version&message=1.0.0&color=green)](https://www.npmjs.com/package/fs-pro)
+[![LICENSE](https://img.shields.io/static/v1.svg?label=LICENSE&message=MIT&color=green)](https://github.com/AliBasicCoder/fs-pro/blob/master/LICENSE)
 
-pro-fs is a package to work with files and dir more easly
+fs-pro is a package to work with files and dir more easly
 
 # working with Files
 
@@ -13,9 +13,9 @@ npm i fs-pro
 
 ## examles
 ```js
-const { File } = require('pro-fs');
+const { File } = require('fs-pro');
 // or
-import { File } from 'pro-fs';
+import { File } from 'fs-pro';
 
 // if the file don't exits it will create it
 // if it exits it will get all of it's information 
@@ -135,9 +135,9 @@ file.delete();
 # working with Dirs
 ## examles
 ```js
-const { Dir } = require('pro-fs');
+const { Dir } = require('fs-pro');
 // or
-import { Dir } from 'pro-fs';
+import { Dir } from 'fs-pro';
 
 // if the file don't exits it will create it
 // if it exits it will get all of it's information 

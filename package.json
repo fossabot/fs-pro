@@ -1,6 +1,6 @@
 {
-  "name": "pro-fs",
-  "version": "1.0.0",
+  "name": "fs-pro",
+  "version": "1.0.1",
   "description": "a package to work with files and dir more easly",
   "main": "out/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AliBasicCoder/pro-fs.git"
+    "url": "git+https://github.com/AliBasicCoder/fs-pro.git"
   },
   "keywords": [
     "setup",
@@ -17,9 +17,9 @@
   "author": "me",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AliBasicCoder/pro-fs/issues"
+    "url": "https://github.com/AliBasicCoder/fs-pro/issues"
   },
-  "homepage": "https://github.com/AliBasicCoder/pro-fs#readme",
+  "homepage": "https://github.com/AliBasicCoder/fs-pro#readme",
   "devDependencies": {
     "@types/node": "^12.0.10"
   }
