@@ -90,7 +90,7 @@ export default class File {
         const stat = fs.statSync(this.path);
         return stat;
     }
-    chmod(mode: Mode): void {
+    chmod(mode: Mode): File {
         let code = 0;
         if (mode === 'read write execute' || mode === 'all') code = 7;
         if (mode === 'read write') code = 6;
@@ -101,6 +101,7 @@ export default class File {
         if (mode === 'execute only') code = 1;
         if (mode === 'none') code = 0;
         fs.chmodSync(this.path, code);
+        return this;
     }
     testAccess(mode: accessMode): boolean {
         var code = 7;
@@ -123,14 +124,16 @@ export default class File {
             return false;
         }
     }
-    copy(dist): void {
+    copy(dist): File {
         fs.copyFileSync(this.path, dist);
+        return this;
     }
-    copyTo(dist): void {
+    copyTo(dist): File {
         fs.copyFileSync(this.path, path.join(dist, this.baseName));
         this.editStatus();
+        return this;
     }
-    getContentFrom(dist: string | File | Buffer): void {
+    getContentFrom(dist: string | File | Buffer): File {
         if (dist instanceof String) {
             var distFile = new File(dist);
             this.write(distFile.content);
@@ -141,8 +144,9 @@ export default class File {
         if (dist instanceof Buffer) {
             this.write(dist);
         }
+        return this;
     }
-    appendContentFrom(dist: String | File | Buffer) {
+    appendContentFrom(dist: String | File | Buffer): File {
         if (typeof dist === 'string') {
             var distFile = new File(dist);
             console.log(distFile);
@@ -154,6 +158,7 @@ export default class File {
         if (dist instanceof Buffer) {
             this.append(dist);
         }
+        return this;
     }
     private setDefault(): void {
         this.content = '';
@@ -161,15 +166,16 @@ export default class File {
         this.lineCount = 0;
         this.lines = ['']
     }
-    delete(set?): void {
+    delete(set?): File {
         try {
             fs.unlinkSync(this.path);
             set ? null : this.setDefault()
         } catch (err) {
             throw err
         }
+        return this;
     }
-    append(content: Buffer | string): void {
+    append(content: Buffer | string): File {
         if (content instanceof Buffer) {
             content = content.toString();
         }
@@ -183,8 +189,9 @@ export default class File {
         } catch (err) {
             throw err
         }
+        return this;
     }
-    clear(): void {
+    clear(): File {
         try {
             fs.writeFileSync(this.path, '');
             this.content = '';
@@ -195,8 +202,9 @@ export default class File {
         } catch (err) {
             throw err
         }
+        return this;
     }
-    write(content: Buffer | string): void {
+    write(content: Buffer | string): File {
         try {
             fs.writeFileSync(this.path, content, { encoding: this.enconding });
             if (content instanceof Buffer) {
@@ -212,6 +220,7 @@ export default class File {
         } catch (err) {
             throw err;
         }
+        return this;
     }
     read(): any {
         try {
@@ -230,7 +239,7 @@ export default class File {
             throw err;
         }
     }
-    readLines(func: callback): void {
+    readLines(func: callback): File {
         try {
             var arr = fs.readFileSync(this.path, this.enconding).toString().split('\n')
         } catch (err) {
@@ -250,6 +259,7 @@ export default class File {
         } catch (err) {
             throw err;
         }
+        return this;
     }
     refresh() {
         this.read();

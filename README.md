@@ -35,6 +35,9 @@ npm i fs-pro
 | ext        | string       | the extension of the file                  |
 | baseName   | string       | the name with extion of the file           |
 
+NOTE: changing any of this attrs will not efect the file
+please use the methods bellow
+
 ## examples
 ```js
 const { File } = require('fs-pro');
@@ -44,6 +47,14 @@ import { File } from 'fs-pro';
 // if the file don't exits it will create it
 // if it exits it will get all of it's information 
 var file = new File('something.txt')
+```
+### methods mixing
+```js
+// you can call methods like this
+file
+    .write('hello wolrd')
+    .append('\n test')
+    .copyTo('dist')
 ```
 ### rename( newName: string )
 ```js
@@ -183,6 +194,18 @@ file.parent('test');
 
 ```
 # working with Dirs
+## Dir class attr
+| attr       | type         | decription                                 |
+| :--------: | :----:       |  :--------:                                |
+| files      | any[]        | an array of the dir and files i n the dir  |
+| path       | string       | the absoulte path of the path              |
+| name       | string       | the name of the dir                        |
+| size       | string       | the size of the dir                        | 
+| accessedAt | Date         | the date when the dir is last accssed      |
+| modifiedAt | Date         | the date when the dir is last moddifed     |
+| changedAt  | Date         | the date when the dir is last changed      |
+| createdAt  | Date         | the date when the dir is created           |
+| deviceID   | number       | the device ID                              |
 ## examples
 ```js
 const { Dir } = require('fs-pro');
@@ -192,6 +215,16 @@ import { Dir } from 'fs-pro';
 // if the file don't exits it will create it
 // if it exits it will get all of it's information 
 var dir = new dir('something')
+```
+### method mixing
+```js
+// just as file you can mix about 75% of the methods below
+// the 25% is methods for delete and to get a file and so on
+dir
+    .foreachFile(function(file){
+        console.log(file.path)
+    })
+    .copyTo('dist') // and so on
 ```
 ### delete()
 ```js
@@ -271,11 +304,17 @@ dir.forforeachFile(function(file){
 ### createFile( fileName: string )
 ```js
 // this method will create a file in the dir
-dir.createFile('$fileName')
+var newFile = dir.createFile('$fileName'); // and you can work with file as you want
+
+newFile.write('hello world');
 ```
 ### createDir( dirname: stirng )
 ```js
-dir.createDir('new_dir');
+var newDir = dir.createDir('new_dir');
+
+var newDirPath = newDir.path;
+
+console.log(newDirPath);
 ```
 ### getFile( fileName: string ):File
 ```js

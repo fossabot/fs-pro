@@ -38,7 +38,7 @@ export default class Dir {
         this.updateStatus();
     }
 
-    updateStatus() {
+    private updateStatus() {
         var status = fs.lstatSync(this.path);
         this.size = getSize(status.size);
         this.accessedAt = status.atime;
@@ -48,7 +48,7 @@ export default class Dir {
         this.deviceID = status.dev;
     }
 
-    foreachFile(func: callback) {
+    foreachFile(func: callback): Dir {
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] instanceof Dir) {
                 this.files[i].foreachFile(func);
@@ -58,9 +58,10 @@ export default class Dir {
         }
         this.files.filter(item => item != null);
         this.updateStatus();
+        return this;
     }
 
-    foreachDir(func: (dir: Dir) => any) {
+    foreachDir(func: (dir: Dir) => any): Dir {
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] instanceof Dir) {
                 this.files[i].foreachDir(func);
@@ -68,25 +69,29 @@ export default class Dir {
             }
         }
         this.updateStatus();
+        return this;
     }
 
-    foreach(func: (fileOrDir: File | Dir) => any) {
+    foreach(func: (fileOrDir: File | Dir) => any): Dir {
         for (let i = 0; i < this.files.length; i++) {
             this.files[i] = func(this.files[i]);
         }
         this.updateStatus();
+        return this;
     }
 
-    delete() {
+    delete(): void {
         this.foreach(thing => thing.delete());
         try { fs.rmdirSync(this.path) } catch (err) { }
         this.files = null;
         this.size = null;
     }
 
-    createFile(name) {
-        this.files.push(new File(path.join(this.name, name)));
+    createFile(name): File {
+        var newFile = new File(path.join(this.name, name));
+        this.files.push(newFile);
         this.updateStatus();
+        return newFile;
     }
 
     getFile(name): File {
@@ -111,14 +116,15 @@ export default class Dir {
         return files;
     }
 
-    deleteFile(name) {
+    deleteFile(name): Dir {
         var file = this.files.filter(item => item.baseName === name)[0];
         file.delete();
         this.files = this.files.filter(item => item.baseName !== name);
         this.updateStatus();
+        return this;
     }
 
-    deleteEvery(name: string) {
+    deleteEvery(name: string): Dir {
         if (name.indexOf('*') !== -1) {
             var regex = /\*/g;
             name = name.replace(/\./g, '\\.');
@@ -142,9 +148,10 @@ export default class Dir {
             this.filter(thing => thing.name !== name);
         }
         this.updateStatus();
+        return this;
     }
 
-    filter(func: (thing: File | Dir) => boolean) {
+    filter(func: (thing: File | Dir) => boolean): Dir {
         var newFiles = [];
         for (let i = 0; i < this.files.length; i++) {
             if (func(this.files[i])) {
@@ -158,9 +165,10 @@ export default class Dir {
         }
         this.files = newFiles;
         this.updateStatus();
+        return this;
     }
 
-    watch(func: DirWatchCallBack) {
+    watch(func: DirWatchCallBack): void {
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] instanceof Dir) {
                 this.files[i].watch(func);
@@ -171,23 +179,25 @@ export default class Dir {
         }
     }
 
-    moveTo(dist) {
+    moveTo(dist): Dir {
         var thisDir = new Dir(this.name);
         this.copyTo(dist);
         thisDir.delete();
         this.path = path.resolve(path.join(dist, this.name));
         this.updateStatus();
+        return this;
     }
 
-    copyTo(dist) {
+    copyTo(dist): Dir {
         var p = path.resolve(path.join(dist, this.name));
         if (!fs.existsSync(p)) {
             fs.mkdirSync(p);
         }
         this.copyFilesTo(path.join(dist, this.name));
+        return this;
     }
 
-    copyFilesTo(dist) {
+    copyFilesTo(dist): Dir {
         var p = path.resolve(dist);
         if (!fs.existsSync(p)) {
             fs.mkdirSync(p);
@@ -202,28 +212,33 @@ export default class Dir {
             }
         }
         this.updateStatus();
+        return this;
     }
 
-    rename(newName) {
+    rename(newName): Dir {
         fs.renameSync(this.path, path.resolve(newName));
         this.name = newName;
         this.path = path.resolve(newName);
         this.updateStatus();
+        return this;
     }
 
-    clear() {
+    clear(): Dir {
         this.foreach(thing => thing.delete());
         this.files = [];
         this.size = getSize(0);
+        return this;
     }
 
-    relativePath() {
+    relativePath(): string {
         return path.relative('.', this.path);
     }
 
-    createDir(name) {
-        this.files.push(new Dir(path.join(this.name, name)));
+    createDir(name): Dir {
+        var newDir = new Dir(path.join(this.name, name));
+        this.files.push(newDir);
         this.updateStatus();
+        return newDir;
     }
 
     getDir(name): Dir {
