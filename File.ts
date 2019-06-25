@@ -40,7 +40,7 @@ export default class File {
     /** the absoulte path for the file */
     path: string;
     /** the encoding of the file the default is utf8 */
-    enconding: any;
+    encoding: BufferEncoding;
     /** the file as a buffer */
     buffer: Buffer;
     /** the content of the file */
@@ -83,7 +83,7 @@ export default class File {
      * @param enconding the encoding of the file 
      * you want and it efict only if the file don't exits 
      */
-    constructor(name, enconding?) {
+    constructor(name, enconding?: BufferEncoding) {
         this.setPath(path.resolve(name));
         if (fs.existsSync(this.path)) {
             try {
@@ -99,10 +99,11 @@ export default class File {
             this.lines = this.content.split('\n');
             this.lineCount = this.lines.length;
             this.editStatus();
-            if (chardet.detect(this.buffer) !== 'binary') {
-                this.enconding = 'utf8'
+            var encode = chardet.detect(this.buffer);
+            if (encode === 'ascii' || encode === 'base64' || encode === 'binary' || encode === 'hex' || encode === 'latin1' || encode === 'ucs-2' || encode === 'ucs2' || encode === 'utf16le' || encode === 'utf8') {
+                this.encoding = encode
             } else {
-                this.enconding = 'binary'
+                this.encoding = 'utf-8';
             }
         } else {
             this.setDefault();
@@ -110,12 +111,12 @@ export default class File {
             this.editStatus();
             if (enconding) {
                 if (Buffer.isEncoding(enconding)) {
-                    this.enconding = enconding;
+                    this.encoding = enconding;
                 } else {
                     throw new Error('Invalid Encoding')
                 }
             } else {
-                this.enconding = 'utf8'
+                this.encoding = 'utf8'
             }
         }
     }
@@ -292,7 +293,7 @@ export default class File {
             content = content.toString();
         }
         try {
-            fs.appendFileSync(this.path, content, { encoding: this.enconding });
+            fs.appendFileSync(this.path, content, { encoding: this.encoding });
             this.content += content;
             this.lines = this.content.split('\n');
             this.lineCount = this.lines.length;
@@ -327,7 +328,7 @@ export default class File {
      */
     write(content: Buffer | string): File {
         try {
-            fs.writeFileSync(this.path, content, { encoding: this.enconding });
+            fs.writeFileSync(this.path, content, { encoding: this.encoding });
             if (content instanceof Buffer) {
                 this.content = content.toString();
                 this.buffer = content;
@@ -335,7 +336,7 @@ export default class File {
                 this.content = content;
                 this.lines = this.content.split('\n');
                 this.lineCount = this.lines.length;
-                this.buffer = Buffer.from(content, this.enconding);
+                this.buffer = Buffer.from(content, this.encoding);
                 this.editStatus();
             }
         } catch (err) {
@@ -392,7 +393,7 @@ export default class File {
             this.content = content;
             this.lines = this.content.split('\n');
             this.lineCount = this.lines.length;
-            this.buffer = Buffer.from(this.content, this.enconding);
+            this.buffer = Buffer.from(this.content, this.encoding);
         } catch (err) {
             throw err;
         }

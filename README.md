@@ -16,7 +16,7 @@ npm i fs-pro
 | :--------: | :----:       |  :--------:                                |
 | name       | string       | the name of the file with out the ext      |
 | path       | string       | the absloute path of the file              |
-|  enconding | string       |      the encoding of the file              |
+| encoding   | string       |      the encoding of the file              |
 | buffer     | Buffer       | the buffer version of the file             |
 | content    | string       | the content of the file                    |
 | lines      | string[]     | the lines of the file as an arr            |
