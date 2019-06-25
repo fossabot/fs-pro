@@ -206,6 +206,12 @@ file.parent(dir);
 file.parent('test');
 
 ```
+### parentDir()
+``` js
+// this method will return the parent dir of the file
+// as an Dir object every thing about that below
+var dir = file.parentDir();
+```
 # working with Dirs
 ## Dir class attr
 | attr       | type         | decription                                 |
