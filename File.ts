@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import getSize from './getSize';
 import Dir from './Dir';
+import { convertSize } from 'convert-size';
 
 type callback = (value: any, lineNumber: number) => any;
 
@@ -97,7 +97,7 @@ export default class File {
     }
     private editStatus() {
         const status = this.status();
-        this.size = getSize(status.size);
+        this.size = convertSize(status.size);
         this.accessedAt = status.atime;
         this.modifiedAt = status.mtime;
         this.changedAt = status.ctime;
@@ -309,7 +309,7 @@ interface Status {
 
 
 function convertStatus(status: fs.Stats): Status {
-    var size = getSize(status.size);
+    var size = convertSize(status.size);
     var accessedAt = status.atime;
     var modifiedAt = status.mtime;
     var changedAt = status.ctime;

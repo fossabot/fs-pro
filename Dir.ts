@@ -1,7 +1,7 @@
 import File from './File';
 import * as fs from 'fs';
 import * as path from 'path';
-import getSize from './getSize';
+import { convertSize } from 'convert-size';
 
 type DirWatchCallBack = (file: File) => any;
 type callback = (file: File) => any;
@@ -40,7 +40,7 @@ export default class Dir {
 
     private updateStatus() {
         var status = fs.lstatSync(this.path);
-        this.size = getSize(status.size);
+        this.size = convertSize(status.size);
         this.accessedAt = status.atime;
         this.modifiedAt = status.mtime;
         this.changedAt = status.ctime;
@@ -226,7 +226,7 @@ export default class Dir {
     clear(): Dir {
         this.foreach(thing => thing.delete());
         this.files = [];
-        this.size = getSize(0);
+        this.size = convertSize(0);
         return this;
     }
 
