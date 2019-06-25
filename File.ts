@@ -11,6 +11,27 @@ type FileWatchCallBack = (currentStatus, prevStatus) => any;
 
 type accessMode = 'execute' | 'write' | 'read' | 'all'
 
+type WriteStreamOptions = {
+    flags?: string,
+    encoding?: string,
+    fd?: number,
+    mode?: number,
+    autoClose?: boolean,
+    start?: number
+}
+
+type ReadStreamOptions = {
+    flags?: string,
+    encoding?: string,
+    fd?: number,
+    mode?: number,
+    autoClose?: boolean,
+    start?: number,
+    end?: number,
+    hightWaterMark?: number
+}
+
+
 // @ts-ignore
 export default class File {
     name: string;
@@ -90,17 +111,9 @@ export default class File {
         const stat = fs.statSync(this.path);
         return stat;
     }
-    chmod(mode: Mode): File {
-        let code = 0;
-        if (mode === 'read write execute' || mode === 'all') code = 7;
-        if (mode === 'read write') code = 6;
-        if (mode === 'read execute') code = 5;
-        if (mode === 'read only') code = 4;
-        if (mode === 'write execute') code = 3;
-        if (mode === 'write only') code = 2;
-        if (mode === 'execute only') code = 1;
-        if (mode === 'none') code = 0;
-        fs.chmodSync(this.path, code);
+    chmod(mode: number): File {
+        fs.chmodSync(this.path, mode);
+        this.editStatus();
         return this;
     }
     testAccess(mode: accessMode): boolean {

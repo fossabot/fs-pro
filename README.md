@@ -155,7 +155,7 @@ const { accessedAt,
 // you should call
 file.editStatus()
 ```
-### chmod( code: 'none' | 'read write execute' | 'read write' | 'all' | 'read execute' | 'write execute' | 'read only' | 'write only' | 'execute only' | number )
+### chmod( code: number )
 ```js
 // to change file access permition
 file.chmod(code);
