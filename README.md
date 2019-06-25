@@ -50,10 +50,15 @@ var content = file.read();
 // to get the lines as an array
 var lines = file.Lines();
 ```
-### addContentFrom ( path: string )
+### getContentFrom(dist: string | File | Buffer): void
+```js
+// this method will copy some file content to the file
+file.getContentFrom('$filePath');
+```
+### appendContentFrom ( path: string )
 ```js
 // to add some file content to the file
-this.addContentFrom('$filePath');
+file.appendContentFrom('$filePath');
 ```
 ### readLines ((lineText, lineNumber) => any)
 ```js
