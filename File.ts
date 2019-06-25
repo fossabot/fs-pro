@@ -77,6 +77,13 @@ export default class File {
             this.editStatus();
         }
     }
+    public static multiple(files: string[]): File[] {
+        var arr = [];
+        for (let item of files) {
+            arr.push(new File(item));
+        }
+        return arr;
+    }
     private setPath(dist) {
         this.path = dist;
         var obj = path.parse(this.path);

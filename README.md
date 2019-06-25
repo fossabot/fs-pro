@@ -56,6 +56,19 @@ file
     .append('\n test')
     .copyTo('dist')
 ```
+### File.multiple( files: string[] ):File[]
+``` js
+// getting the files as a File array
+var files = File.multiple(['./package.json', './package-lock.json']);
+var json = [];
+// looping throw them
+files.forEach(file => {
+    // getting the json of the file
+    json.push(JSON.parse(file.content));
+});
+// console log it
+console.log(json);
+```
 ### rename( newName: string )
 ```js
 // it will rename the file
@@ -226,6 +239,12 @@ dir
     })
     .copyTo('dist') // and so on
 ```
+### Dir.multiple( dirs: string[] ): Dir[]
+```js
+var dirs = Dir.multiple(['test', 'test1', 'test2']);
+
+dirs.forEach(dir => console.log(dir.path));
+```
 ### delete()
 ```js
 // it will delete the dir no matter it's empty or not
@@ -252,6 +271,31 @@ dir.moveTo('$dist')
 // BUT not the dir
 dir.copyFilesTo('$dist') 
 ``` 
+### copyFilesFrom( dist: string )
+```js
+// it will get the files from anther dir and copy it
+// to the dir
+dir.copyFilesFrom('$dist');
+```
+### moveFilesTo( dist: string )
+``` js
+// it will move it's files and dir to the dist
+// BUT not the dir
+dir.moveFilesTo('$dist'); 
+``` 
+### moveFilesFrom( dist: string )
+```js
+// it will get the files from anther dir and move it
+// to the dir
+dir.copyFilesFrom('$dist');
+```
+### deleteContainer()
+``` js
+// this method will delete the dir BUT it will 
+// leaves the file alone or with other words
+// it will move every file and dir to ./
+dir.deleteContainer();
+```
 ### rename( newName: string )
 ```js
 // it will rename the dir

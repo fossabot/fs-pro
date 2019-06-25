@@ -37,6 +37,16 @@ export default class Dir {
         }
         this.updateStatus();
     }
+    /**
+    * @param dirs the dirs names
+    */
+    public static multiple(dirs: string[]): Dir[] {
+        let arr = [];
+        for (let item of dirs) {
+            arr.push(new Dir(item));
+        }
+        return arr;
+    }
 
     private updateStatus() {
         var status = fs.lstatSync(this.path);
@@ -47,7 +57,37 @@ export default class Dir {
         this.createdAt = status.birthtime;
         this.deviceID = status.dev;
     }
-
+    /**
+     * this method will move the files inside the dir to 
+     * @param dist the dist
+     */
+    moveFilesTo(dist) {
+        this.copyFilesTo(dist);
+        this.delete();
+        fs.mkdirSync(this.path);
+    }
+    /**
+     * will move the file from the dist to 
+     * the dir
+     * @param dist the dist you want to getthe files from
+     */
+    moveFilesFrom(dist) {
+        var dir = new Dir(dist);
+        dir.moveFilesTo(this.path);
+    }
+    /**
+     * will copy the file from the dist to the dir
+     * @param dist the dist you want to get the files from
+     */
+    copyFilesFrom(dist) {
+        var dir = new Dir(dist);
+        dir.copyFilesTo(this.path);
+    }
+    /**
+     * will loop throw every single file in the dir
+     * and apply the callback to it
+     * @param func the callback function
+     */
     foreachFile(func: callback): Dir {
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] instanceof Dir) {
@@ -60,7 +100,12 @@ export default class Dir {
         this.updateStatus();
         return this;
     }
-
+    /**
+     * this method will loop throw every single 
+     * dir in the dir
+     * @param func the callback function and the method will
+     * pass in to it every single dir
+     */
     foreachDir(func: (dir: Dir) => any): Dir {
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] instanceof Dir) {
@@ -71,7 +116,7 @@ export default class Dir {
         this.updateStatus();
         return this;
     }
-
+    
     foreach(func: (fileOrDir: File | Dir) => any): Dir {
         for (let i = 0; i < this.files.length; i++) {
             this.files[i] = func(this.files[i]);
@@ -83,8 +128,13 @@ export default class Dir {
     delete(): void {
         this.foreach(thing => thing.delete());
         try { fs.rmdirSync(this.path) } catch (err) { }
-        this.files = null;
-        this.size = null;
+        this.files = [];
+        this.size = convertSize(0);
+    }
+
+    deleteContainer() {
+        this.moveFilesTo('./');
+        this.delete();
     }
 
     createFile(name): File {
@@ -151,34 +201,6 @@ export default class Dir {
         return this;
     }
 
-    filter(func: (thing: File | Dir) => boolean): Dir {
-        var newFiles = [];
-        for (let i = 0; i < this.files.length; i++) {
-            if (func(this.files[i])) {
-                if (this.files[i] instanceof Dir) {
-                    this.files[i].filter(func);
-                }
-                newFiles.push(this.files[i]);
-            } else {
-                this.files[i].delete();
-            }
-        }
-        this.files = newFiles;
-        this.updateStatus();
-        return this;
-    }
-
-    watch(func: DirWatchCallBack): void {
-        for (let i = 0; i < this.files.length; i++) {
-            if (this.files[i] instanceof Dir) {
-                this.files[i].watch(func);
-            } else {
-                let file = this.files[i];
-                file.watch(() => func(file));
-            }
-        }
-    }
-
     moveTo(dist): Dir {
         var thisDir = new Dir(this.name);
         this.copyTo(dist);
@@ -202,7 +224,6 @@ export default class Dir {
         if (!fs.existsSync(p)) {
             fs.mkdirSync(p);
         }
-        this.path = p;
         this.updateStatus();
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] instanceof Dir) {
@@ -261,5 +282,33 @@ export default class Dir {
             return dir;
         });
         return dirs;
+    }
+
+    filter(func: (thing: File | Dir) => boolean): Dir {
+        var newFiles = [];
+        for (let i = 0; i < this.files.length; i++) {
+            if (func(this.files[i])) {
+                if (this.files[i] instanceof Dir) {
+                    this.files[i].filter(func);
+                }
+                newFiles.push(this.files[i]);
+            } else {
+                this.files[i].delete();
+            }
+        }
+        this.files = newFiles;
+        this.updateStatus();
+        return this;
+    }
+
+    watch(func: DirWatchCallBack): void {
+        for (let i = 0; i < this.files.length; i++) {
+            if (this.files[i] instanceof Dir) {
+                this.files[i].watch(func);
+            } else {
+                let file = this.files[i];
+                file.watch(() => func(file));
+            }
+        }
     }
 }
