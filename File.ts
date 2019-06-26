@@ -41,7 +41,7 @@ export default class File {
     /** the absoulte path for the file */
     path: string;
     /** the encoding of the file the default is utf8 */
-    encoding: BufferEncoding;
+    encoding: string;
     /** the file as a buffer */
     buffer: Buffer;
     /** the content of the file */
@@ -101,11 +101,7 @@ export default class File {
             this.lineCount = this.lines.length;
             this.editStatus();
             var encode = chardet.detect(this.buffer);
-            if (encode === 'ascii' || encode === 'base64' || encode === 'binary' || encode === 'hex' || encode === 'latin1' || encode === 'ucs-2' || encode === 'ucs2' || encode === 'utf16le' || encode === 'utf8') {
-                this.encoding = encode
-            } else {
-                this.encoding = 'utf-8';
-            }
+            this.encoding = encode;
         } else {
             this.setDefault();
             fs.writeFileSync(this.path, '');
@@ -294,11 +290,12 @@ export default class File {
             content = content.toString();
         }
         try {
-            fs.appendFileSync(this.path, content, { encoding: this.encoding });
+            fs.appendFileSync(this.path, content);
             this.content += content;
             this.lines = this.content.split('\n');
             this.lineCount = this.lines.length;
             this.buffer = Buffer.alloc(0);
+            this.encoding = chardet.detect(this.buffer);
             this.editStatus();
         } catch (err) {
             throw err
@@ -329,15 +326,17 @@ export default class File {
      */
     write(content: Buffer | string): File {
         try {
-            fs.writeFileSync(this.path, content, { encoding: this.encoding });
+            fs.writeFileSync(this.path, content);
             if (content instanceof Buffer) {
                 this.content = content.toString();
+
                 this.buffer = content;
             } else {
                 this.content = content;
                 this.lines = this.content.split('\n');
                 this.lineCount = this.lines.length;
-                this.buffer = Buffer.from(content, this.encoding);
+                this.buffer = Buffer.from(content);
+                this.encoding = chardet.detect(this.buffer);
                 this.editStatus();
             }
         } catch (err) {
@@ -394,7 +393,7 @@ export default class File {
             this.content = content;
             this.lines = this.content.split('\n');
             this.lineCount = this.lines.length;
-            this.buffer = Buffer.from(this.content, this.encoding);
+            this.buffer = Buffer.from(this.content);
         } catch (err) {
             throw err;
         }
@@ -404,6 +403,7 @@ export default class File {
     refresh() {
         this.read();
         this.editStatus();
+        this.encoding = chardet.detect(this.buffer);
     }
     /**
      * this method will rename the file 
@@ -447,6 +447,9 @@ export default class File {
      * @param newEncoding the new eoding
      */
     convertEncoding(newEncoding) {
+        if (!Buffer.isEncoding(newEncoding)) {
+            throw new Error('Invalid Encoding');
+        }
         try {
             var newBuffer = encoding.convert(this.buffer, this.encoding, newEncoding);
             this.buffer = newBuffer;
