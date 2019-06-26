@@ -2,8 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import Dir from './Dir';
 import { convertSize } from 'convert-size';
-const encoding = require('encoding');
+
 const chardet = require('chardet');
+const encoding = require('encoding');
 
 type callback = (value: any, lineNumber: number) => any;
 
@@ -74,16 +75,8 @@ export default class File {
     root: string;
     /** the extension of the file */
     ext: string;
-    /** the name of the file with the extension */
     baseName: string;
-    /**
-     * the constructor will check if the file you want 
-     * extits if extits it will create it if not
-     * it will create it
-     * @param name the name of the file you want
-     * @param enconding the encoding of the file 
-     * you want and it efict only if the file don't exits 
-     */
+
     constructor(name, enconding?: BufferEncoding) {
         this.setPath(path.resolve(name));
         if (fs.existsSync(this.path)) {
@@ -458,6 +451,9 @@ export default class File {
         } catch (err) {
             throw err
         }
+    }
+    createReadStream() {
+        var stream = fs.createReadStream(this.path);
     }
 }
 
