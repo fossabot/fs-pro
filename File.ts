@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import Dir from './Dir';
 import { convertSize } from 'convert-size';
+const encoding = require('encoding');
 const chardet = require('chardet');
 
 type callback = (value: any, lineNumber: number) => any;
@@ -440,6 +441,20 @@ export default class File {
      */
     parentDir(): Dir {
         return new Dir(this.path);
+    }
+    /**
+     * this method will convert the file encoding
+     * @param newEncoding the new eoding
+     */
+    convertEncoding(newEncoding) {
+        try {
+            var newBuffer = encoding.convert(this.buffer, this.encoding, newEncoding);
+            this.buffer = newBuffer;
+            this.content = this.buffer.toString();
+            this.encoding = newEncoding;
+        } catch (err) {
+            throw err
+        }
     }
 }
 

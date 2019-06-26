@@ -16,7 +16,7 @@ npm i fs-pro
 | :--------: | :----:       |  :--------:                                |
 | name       | string       | the name of the file with out the ext      |
 | path       | string       | the absloute path of the file              |
-| encoding   | string       |      the encoding of the file              |
+| encoding   | BufferEncoding |      the encoding of the file              |
 | buffer     | Buffer       | the buffer version of the file             |
 | content    | string       | the content of the file                    |
 | lines      | string[]     | the lines of the file as an arr            |
@@ -211,6 +211,10 @@ file.parent('test');
 // this method will return the parent dir of the file
 // as an Dir object every thing about that below
 var dir = file.parentDir();
+```
+### convertEncoding( newEncoding )
+``` js
+file.convertEncoding('ascii');
 ```
 # working with Dirs
 ## Dir class attr
