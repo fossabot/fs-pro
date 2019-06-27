@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import Dir from './Dir';
-import { convertSize } from 'convert-size';
+import { convertStatus } from "convert-status";
 
 const chardet = require('chardet');
 const encoding = require('encoding');
@@ -76,6 +76,27 @@ export default class File {
     /** the extension of the file */
     ext: string;
     baseName: string;
+    isOtherExecuteable: boolean;
+    isOtherReadable: boolean;
+    isOtherWriteable: boolean;
+    isGroupExecuteable: boolean;
+    isGroupReadable: boolean;
+    isGroupWriteable: boolean;
+    isOwnerReadable: boolean;
+    isOwnerWriteable: boolean;
+    isOwnerExecuteable: boolean;
+    blockSize: number;
+    blocks: number;
+    isBlockDevice: boolean;
+    isCharacterDevice: boolean;
+    isSymbolicLink: boolean;
+    isFIFO: boolean;
+    isSocket: boolean;
+    deviceIdentifier: number;
+    groupIdentifier: number;
+    Inode: number;
+    hardLinks: number;
+    userIdentifier: number;
 
     constructor(name, enconding?: BufferEncoding) {
         this.setPath(path.resolve(name));
@@ -148,16 +169,16 @@ export default class File {
         return path.relative('.', this.path);
     }
     private editStatus() {
-        const status = this.status();
-        this.size = convertSize(status.size);
-        this.accessedAt = status.atime;
-        this.modifiedAt = status.mtime;
-        this.changedAt = status.ctime;
-        this.createdAt = status.birthtime;
-        this.deviceID = status.dev;
         this.isWriteable = this.testAccess('write');
         this.isReadable = this.testAccess('read');
         this.isExecuteable = this.testAccess('execute');
+        const status = convertStatus(this.status());
+        for (const key in status) {
+            if (status.hasOwnProperty(key) && key !== 'isDirectory' && key != 'isFile') {
+                let element = status[key];
+                this[key] = element;
+            }
+        }
     }
     private status(): fs.Stats {
         const stat = fs.statSync(this.path);
@@ -177,8 +198,8 @@ export default class File {
      * the default is 'read write execute'
      * @param mode the mode you want to test
      */
-    testAccess(mode: accessMode): boolean {
-        var code = 7;
+    testAccess(mode: accessMode | number): boolean {
+        var code;
         if (mode === 'all' || !mode) {
             code = 7;
         }
@@ -192,7 +213,7 @@ export default class File {
             code = fs.constants.X_OK
         }
         try {
-            fs.accessSync(this.path, code);
+            fs.accessSync(this.path, code || mode);
             return true
         } catch (err) {
             return false;
@@ -419,7 +440,7 @@ export default class File {
     }
     /**
      * will move to the dir that passed in
-     * @param dir the dir could be a Dir object or a path for it
+     * @param dir the dir could be a Dir status or a path for it
      */
     parent(dir: Dir | string) {
         if (dir instanceof Dir) {
@@ -452,27 +473,23 @@ export default class File {
             throw err
         }
     }
-    createReadStream() {
-        var stream = fs.createReadStream(this.path);
-    }
 }
 
-interface Status {
-    size: string,
-    accessedAt: Date,
-    modifiedAt: Date,
-    changedAt: Date,
-    createdAt: Date,
-    deviceID: number
-}
-
-
-function convertStatus(status: fs.Stats): Status {
-    var size = convertSize(status.size);
-    var accessedAt = status.atime;
-    var modifiedAt = status.mtime;
-    var changedAt = status.ctime;
-    var createdAt = status.birthtime;
-    var deviceID = status.dev;
-    return { size, accessedAt, modifiedAt, changedAt, createdAt, deviceID }
-}
+// interface Status {
+//     size: string,
+//     accessedAt: Date,
+//     modifiedAt: Date,
+//     changedAt: Date,
+//     createdAt: Date,
+//     deviceID: number
+// }
+// 
+// function convertStatus(status: fs.Stats): Status {
+//     var size = convertSize(status.size);
+//     var accessedAt = status.atime;
+//     var modifiedAt = status.mtime;
+//     var changedAt = status.ctime;
+//     var createdAt = status.birthtime;
+//     var deviceID = status.dev;
+//     return { size, accessedAt, modifiedAt, changedAt, createdAt, deviceID }
+// }
