@@ -75,15 +75,25 @@ export default class File {
     root: string;
     /** the extension of the file */
     ext: string;
+    /** the file name of the file inculding the ext */
     baseName: string;
+    /** it's true when the file is others executeable */
     isOtherExecuteable: boolean;
+    /** it's true when the file is others readable */
     isOtherReadable: boolean;
+    /** it's true when the file is others writeable */
     isOtherWriteable: boolean;
+    /** it's true when the file is group executeable */
     isGroupExecuteable: boolean;
+    /** it's true when the file is group readable */
     isGroupReadable: boolean;
+    /** it's true when the file is group writable */
     isGroupWriteable: boolean;
+    /** it's true when the file is owner readable */
     isOwnerReadable: boolean;
+    /** it's true when the file is owner writeable */
     isOwnerWriteable: boolean;
+    /**it's true when the file is owner executeable*/
     isOwnerExecuteable: boolean;
     blockSize: number;
     blocks: number;
@@ -98,7 +108,7 @@ export default class File {
     hardLinks: number;
     userIdentifier: number;
 
-    constructor(name, enconding?: BufferEncoding) {
+    constructor(name: string, enconding?: BufferEncoding) {
         this.setPath(path.resolve(name));
         if (fs.existsSync(this.path)) {
             try {
@@ -244,7 +254,7 @@ export default class File {
      * @param dist the path of the file you want to get the conent from
      */
     getContentFrom(dist: string | File | Buffer): File {
-        if (dist instanceof String) {
+        if (typeof dist === 'string') {
             var distFile = new File(dist);
             this.write(distFile.content);
         }
