@@ -65,47 +65,59 @@ export default class File {
     deviceID: number;
     /** it's true when the file is writeable */
     isWriteable: boolean;
-    /** it's readable when the file is readable */
+    /** it's readable when the file is Readable */
     isReadable: boolean;
-    /** it's true when the file is excutable */
+    /** it's true when the file is Excutable */
     isExecuteable: boolean;
-    /** the dirname fo the file */
+    /** the Dirname fo the file */
     dirName: string;
-    /** the root of the file */
+    /** the Root of the file */
     root: string;
-    /** the extension of the file */
+    /** the Extension of the file */
     ext: string;
-    /** the file name of the file inculding the ext */
+    /** the file name of the file inculding the Ext */
     baseName: string;
-    /** it's true when the file is others executeable */
+    /** it's true when the file is others Executeable */
     isOtherExecuteable: boolean;
-    /** it's true when the file is others readable */
+    /** it's true when the file is others Readable */
     isOtherReadable: boolean;
     /** it's true when the file is others writeable */
     isOtherWriteable: boolean;
-    /** it's true when the file is group executeable */
+    /** it's true when the file is group Executeable */
     isGroupExecuteable: boolean;
-    /** it's true when the file is group readable */
+    /** it's true when the file is group Readable */
     isGroupReadable: boolean;
-    /** it's true when the file is group writable */
+    /** it's true when the file is group Writable */
     isGroupWriteable: boolean;
-    /** it's true when the file is owner readable */
+    /** it's true when the file is owner Readable */
     isOwnerReadable: boolean;
     /** it's true when the file is owner writeable */
     isOwnerWriteable: boolean;
-    /**it's true when the file is owner executeable*/
+    /**it's true when the file is owner Executeable */
     isOwnerExecuteable: boolean;
+    /** the size of each block in the file  */
     blockSize: number;
+    /** the block count in the fike */
     blocks: number;
+    /** it's true when the file is a Blocked Deviced */
     isBlockDevice: boolean;
+    /** it's true when the file is a Character Device */
     isCharacterDevice: boolean;
+    /** it's true when the file is a  Symbolic Link */
     isSymbolicLink: boolean;
+    /** it's true when the file is FIFO */
     isFIFO: boolean;
+    /** it's true when the file is a Socket */
     isSocket: boolean;
+    /** the Device Identifier of the file */
     deviceIdentifier: number;
+    /** the groupIdentifier of the file */
     groupIdentifier: number;
+    /** the Inode of the file */
     Inode: number;
+    /** the Hard Links of the file */
     hardLinks: number;
+    /** the User Identifier of the file */
     userIdentifier: number;
 
     constructor(name: string, enconding?: BufferEncoding) {
@@ -460,6 +472,7 @@ export default class File {
             this.moveTo(newDir.relativePath());
         }
     }
+
     /**
      * this method will return the parent dir of the File
      */
@@ -471,6 +484,7 @@ export default class File {
      * @param newEncoding the new eoding
      */
     convertEncoding(newEncoding) {
+
         if (!Buffer.isEncoding(newEncoding)) {
             throw new Error('Invalid Encoding');
         }
@@ -483,23 +497,13 @@ export default class File {
             throw err
         }
     }
+    /** if the file is json it will parse it and return it */
+    toJson() {
+        var con = this.read();
+        try {
+            return JSON.parse(con);
+        } catch (err) {
+            throw err
+        }
+    }
 }
-
-// interface Status {
-//     size: string,
-//     accessedAt: Date,
-//     modifiedAt: Date,
-//     changedAt: Date,
-//     createdAt: Date,
-//     deviceID: number
-// }
-// 
-// function convertStatus(status: fs.Stats): Status {
-//     var size = convertSize(status.size);
-//     var accessedAt = status.atime;
-//     var modifiedAt = status.mtime;
-//     var changedAt = status.ctime;
-//     var createdAt = status.birthtime;
-//     var deviceID = status.dev;
-//     return { size, accessedAt, modifiedAt, changedAt, createdAt, deviceID }
-// }
