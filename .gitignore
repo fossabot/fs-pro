@@ -62,3 +62,7 @@ typings/
 .next
 
 test.*
+*.txt
+test/
+
+async

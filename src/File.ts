@@ -6,7 +6,7 @@ import { convertStatus } from "convert-status";
 const chardet = require('chardet');
 const encoding = require('encoding');
 
-type callback = (value: any, lineNumber: number) => any;
+type callback = (value: string, lineNumber: number) => any;
 
 type Mode = 'none' | 'read write execute' | 'read write' | 'all' | 'read execute' | 'write execute' | 'read only' | 'write only' | 'execute only' | number;
 
@@ -285,7 +285,6 @@ export default class File {
     appendContentFrom(dist: String | File | Buffer): File {
         if (typeof dist === 'string') {
             var distFile = new File(dist);
-            console.log(distFile);
             this.append(distFile.content);
         }
         if (dist instanceof File) {
@@ -420,7 +419,7 @@ export default class File {
             throw err;
         }
         for (let i = 0; i < arr.length; i++) {
-            arr[i] = func(arr[i], i);
+            arr[i] = func(arr[i], i) + '\n';
         }
         arr.filter(item => item != null);
         var content = arr.join('');
@@ -447,7 +446,7 @@ export default class File {
      */
     rename(newName: string) {
         fs.renameSync(this.path, newName);
-        this.name = newName;
+        this.setPath(path.resolve(newName));
     }
     /**
      * this function will wacth the file and pass in

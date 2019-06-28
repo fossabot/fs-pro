@@ -1,4 +1,4 @@
-var File = require('./out/index').File;
+var File = require('./out/src/index').File;
 
 var file = new File('./package.json');
 

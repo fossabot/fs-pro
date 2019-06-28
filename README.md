@@ -4,7 +4,24 @@
 
 fs-pro is a package to work with files and dir more easly
 
-# installtion
+## what's new 
+
+fixed some error
+like:
+this will rename it with the same the ext
+making it impossible to change the ext
+
+``` js
+var file = new File('some.txt');
+file.rename('test')
+```
+now that if fixed
+``` js
+var file = new File('some.txt');
+file.rename('test.js') // for example
+```
+
+## installtion
 ```
 npm i fs-pro
 ```
