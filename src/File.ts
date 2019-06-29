@@ -444,8 +444,21 @@ export default class File {
      * this method will rename the file 
      * @param newName the new name
      */
-    rename(newName: string) {
-        fs.renameSync(this.path, newName);
+    rename(newName: string, noExt?) {
+        // cheking if there an ext
+        if (newName.indexOf('.') !== -1) {
+            fs.renameSync(this.path, newName);
+            this.setPath(path.resolve(newName));
+            return
+        }
+        // cheking if the noExt obj have been passed in
+        if (noExt === 'no Ext') {
+            fs.renameSync(this.path, newName);
+            this.setPath(path.resolve(newName));
+            return
+        }
+        // other cases it will add the ext
+        fs.renameSync(this.path, `${newName}.${this.ext}`);
         this.setPath(path.resolve(newName));
     }
     /**

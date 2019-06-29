@@ -12,15 +12,40 @@ this will rename it with the same the ext
 making it impossible to change the ext
 
 ``` js
+const { File } = require('fs-pro');
 var file = new File('some.txt');
 file.rename('test')
 ```
 now that if fixed
 ``` js
+const { File } = require('fs-pro');
+
 var file = new File('some.txt');
+
 file.rename('test.js') // for example
 ```
+but if you passed in a name with no extions it will 
+automaticly add the ext to the new name
+``` js
+const { File } = require('fs-pro');
 
+var file = new File('some.txt');
+
+file.rename('test');
+
+console.log(file.baseName); // it will output test.txt
+```
+if you do want make the file with out an ext
+just import noExt obj and pass that in
+```js
+const { File, noExt } = require('fs-pro');
+
+var file = new File('some.txt')
+
+file.rename('test', noExt); 
+
+console.log(file.ext); // it will output ''
+```
 ## installtion
 ```
 npm i fs-pro

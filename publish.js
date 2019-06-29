@@ -32,6 +32,8 @@ console.log(num1, num2, num3);
 
 const cp = require('child_process');
 
+cp.execSync('npm test');
+console.log('------------ tested ----------------------');
 cp.execSync('tsc test --outdir out ');
 console.log("---------- compiled the files ------------");
 cp.execSync('git add -A');
