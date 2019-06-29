@@ -34,35 +34,55 @@ console.log(num1, num2, num3);
 
 const cp = require('child_process');
 
-cp.exec('npm test', function (err, stdout, sterr) {
-    if (err) {
-        process.stdout.write(sterr);
-        console.log('------------- failed ------------------')
-        return
-    }
-    process.stdout.write(stdout);
-    try {
-        go();
-    } catch (err) {
-        console.log('------------- failed ------------------')
-
-        var newV = `${prev.num1}.${prev.num2}.${prev.num3}`
-
-        json.version = newV;
-
-        file.write(JSON.stringify(json));
-    }
-});
-function go() {
-    console.log('------------ tested ----------------------');
-    cp.execSync('tsc test --outdir out ');
-    console.log("---------- compiled the files ------------");
-    cp.execSync('git add -A');
-    console.log("----------- add the files to get ---------");
-    cp.execSync('git commit -a -m \"Initial Commit\"');
-    console.log("------------ commited the changes --------")
-    cp.execSync('git push github master');
-    console.log("------------- pushed to github ------------");
-    cp.execSync('npm publish');
-    console.log("------------- succesfly published ----------");
+const compiled = () => {
+    cp.exec('tsc test --outdir out ', function (err, stdout, sterr) {
+        if (err) {
+            process.stdout.write(sterr);
+            console.log("--------------- failed ---------------------");
+            restore();
+            return
+        }
+        process.stdout.write(stdout);
+        console.log("---------- compiled the files ------------");
+        test();
+    });
 }
+
+const test = () => {
+    cp.exec('npm test', function (err, stdout, sterr) {
+        if (err) {
+            process.stdout.write(sterr);
+            console.log("--------------- failed ---------------------");
+            restore();
+            return
+        }
+        process.stdout.write(stdout);
+        console.log('------------ tested ----------------------');
+        go();
+    });
+}
+
+function restore() {
+    var newV = `${prev.num1}.${prev.num2}.${prev.num3}`
+
+    json.version = newV;
+
+    file.write(JSON.stringify(json));
+
+    console.log("--------------- failed ---------------------");
+}
+
+function go() {
+    try {
+        cp.execSync('git add -A');
+        console.log("----------- add the files to get ---------");
+        cp.execSync('git commit -a -m \"Initial Commit\"');
+        console.log("------------ commited the changes --------")
+        cp.execSync('git push github master');
+        console.log("------------- pushed to github ------------");
+        cp.execSync('npm publish');
+        console.log("------------- succesfly published ----------");
+    } catch (err) { restore() }
+}
+
+compiled();
