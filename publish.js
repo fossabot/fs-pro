@@ -37,12 +37,12 @@ const cp = require('child_process');
 const compiled = () => {
     cp.exec('tsc test --outdir out ', function (err, stdout, sterr) {
         if (err) {
-            process.stdout.write(sterr);
+            console.log(sterr);
             console.log("--------------- failed ---------------------");
             restore();
             return
         }
-        process.stdout.write(stdout);
+        console.log(stdout);
         console.log("---------- compiled the files ------------");
         test();
     });
@@ -51,12 +51,12 @@ const compiled = () => {
 const test = () => {
     cp.exec('npm test', function (err, stdout, sterr) {
         if (err) {
-            process.stdout.write(sterr);
+            console.log(sterr);
             console.log("--------------- failed ---------------------");
             restore();
             return
         }
-        process.stdout.write(stdout);
+        console.log(stdout);
         console.log('------------ tested ----------------------');
         go();
     });
