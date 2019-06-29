@@ -16,19 +16,21 @@ export default class Dir {
     changedAt: Date;
     createdAt: Date;
     deviceID: number;
+    trak: boolean;
 
-    constructor(name) {
+    constructor(name: string, trak: boolean = true) {
         this.path = path.resolve(name);
         this.name = path.parse(this.path).base;
+        this.trak = trak;
         if (fs.existsSync(this.path)) {
             var arr = fs.readdirSync(this.path);
             for (let item of arr) {
                 // @ts-ignore
                 var p = path.join(name, item);
                 if (fs.lstatSync(p).isDirectory()) {
-                    this.files.push(new Dir(p))
+                    this.files.push(new Dir(p, trak))
                 } else {
-                    var file = new File(p);
+                    var file = new File(p, trak);
                     this.files.push(file);
                 }
             }
@@ -37,13 +39,21 @@ export default class Dir {
         }
         this.updateStatus();
     }
+    reTrak(): void {
+        this.foreachFile(file => file.trak = true);
+        this.trak = false
+    }
+    unTrak(): void {
+        this.foreachFile(file => file.trak = false);
+        this.trak = false
+    }
     /**
     * @param dirs the dirs names
     */
-    public static multiple(dirs: string[]): Dir[] {
+    public static multiple(dirs: string[], trak: boolean = true): Dir[] {
         let arr = [];
         for (let item of dirs) {
-            arr.push(new Dir(item));
+            arr.push(new Dir(item, trak));
         }
         return arr;
     }
@@ -151,7 +161,7 @@ export default class Dir {
      * @param name the name of the file
      */
     createFile(name): File {
-        var newFile = new File(path.join(this.name, name));
+        var newFile = new File(path.join(this.name, name), this.trak);
         this.files.push(newFile);
         this.updateStatus();
         return newFile;
@@ -308,7 +318,7 @@ export default class Dir {
      * @param name the name of the dir you want to create
      */
     createDir(name): Dir {
-        var newDir = new Dir(path.join(this.name, name));
+        var newDir = new Dir(path.join(this.name, name), this.trak);
         this.files.push(newDir);
         this.updateStatus();
         return newDir;

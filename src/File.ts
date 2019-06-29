@@ -167,10 +167,10 @@ export default class File {
      * work with as an array
      * @param files the files you want to work with
      */
-    public static multiple(files: string[]): File[] {
+    public static multiple(files: string[], trak: boolean = true): File[] {
         var arr = [];
         for (let item of files) {
-            arr.push(new File(item));
+            arr.push(new File(item, trak));
         }
         return arr;
     }

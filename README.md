@@ -85,6 +85,15 @@ file.refresh();
 // and if you want to trak that attrs alawas again
 file.trak = true;
 ```
+and the there is an options for Dir
+``` js
+// this dir files will not trak buffer, content, lines and lineCout attrs
+var dir = new Dir('someDir', false);
+// if you want to make the dir file trak again
+dir.reTrak();
+// if you want to make the dir don't trak
+dir.unTrak();  
+```
 ### methods mixing
 ```js
 // you can call methods like this
