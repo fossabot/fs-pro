@@ -58,7 +58,8 @@ npm i fs-pro
 | :--------: | :----:       |  :--------:                                |
 | name       | string       | the name of the file with out the ext      |
 | path       | string       | the absloute path of the file              |
-| encoding   | BufferEncoding |      the encoding of the file              |
+| encoding   | BufferEncoding |      the encoding of the file            |
+| trak       | boolean      | if this is true will update the buffer, content, lines and lineCout attrs when you use any of the file methods |  
 | buffer     | Buffer       | the buffer version of the file             |
 | content    | string       | the content of the file                    |
 | lines      | string[]     | the lines of the file as an arr            |
@@ -89,6 +90,20 @@ import { File } from 'fs-pro';
 // if the file don't exits it will create it
 // if it exits it will get all of it's information 
 var file = new File('something.txt')
+
+```
+### TIP
+if you ar working with big files and don't want over memory 
+usage you can pass in false and this will not 
+update buffer, content, lines and lineCout attrs 
+when you use any if the File methods
+execpt the refresh method
+``` js
+var file = new File('something.txt', false);
+// if you want to update that attrs 
+file.refresh();
+// and if you want to trak that attrs alawas again
+file.trak = true;
 ```
 ### methods mixing
 ```js

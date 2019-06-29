@@ -119,10 +119,13 @@ export default class File {
     hardLinks: number;
     /** the User Identifier of the file */
     userIdentifier: number;
+    trak: boolean;
 
-    constructor(name: string, enconding?: BufferEncoding) {
+    constructor(name: string, trak: boolean = true, enconding?: BufferEncoding) {
         this.setPath(path.resolve(name));
-        if (fs.existsSync(this.path)) {
+        this.trak = trak;
+        if (fs.existsSync(this.path) && trak) {
+
             try {
                 this.buffer = fs.readFileSync(this.path);
             } catch (err) {
@@ -138,19 +141,25 @@ export default class File {
             this.editStatus();
             var encode = chardet.detect(this.buffer);
             this.encoding = encode;
-        } else {
+            return;
+        }
+        if (fs.existsSync(this.path) && !trak) {
+            var encode = chardet.detect(this.buffer);
+            this.encoding = encode;
             this.setDefault();
-            fs.writeFileSync(this.path, '');
-            this.editStatus();
-            if (enconding) {
-                if (Buffer.isEncoding(enconding)) {
-                    this.encoding = enconding;
-                } else {
-                    throw new Error('Invalid Encoding')
-                }
+            return;
+        }
+        this.setDefault();
+        fs.writeFileSync(this.path, '');
+        this.editStatus();
+        if (enconding) {
+            if (Buffer.isEncoding(enconding)) {
+                this.encoding = enconding;
             } else {
-                this.encoding = 'utf8'
+                throw new Error('Invalid Encoding')
             }
+        } else {
+            this.encoding = 'utf8'
         }
     }
     /**
@@ -326,10 +335,12 @@ export default class File {
         }
         try {
             fs.appendFileSync(this.path, content);
-            this.content += content;
-            this.lines = this.content.split('\n');
-            this.lineCount = this.lines.length;
-            this.buffer = Buffer.alloc(0);
+            if (this.trak) {
+                this.content += content;
+                this.lines = this.content.split('\n');
+                this.lineCount = this.lines.length;
+                this.buffer = Buffer.from(this.content);
+            }
             this.encoding = chardet.detect(this.buffer);
             this.editStatus();
         } catch (err) {
@@ -362,17 +373,19 @@ export default class File {
     write(content: Buffer | string): File {
         try {
             fs.writeFileSync(this.path, content);
-            if (content instanceof Buffer) {
-                this.content = content.toString();
+            if (this.trak) {
+                if (content instanceof Buffer) {
+                    this.content = content.toString();
 
-                this.buffer = content;
-            } else {
-                this.content = content;
-                this.lines = this.content.split('\n');
-                this.lineCount = this.lines.length;
-                this.buffer = Buffer.from(content);
-                this.encoding = chardet.detect(this.buffer);
-                this.editStatus();
+                    this.buffer = content;
+                } else {
+                    this.content = content;
+                    this.lines = this.content.split('\n');
+                    this.lineCount = this.lines.length;
+                    this.buffer = Buffer.from(content);
+                    this.encoding = chardet.detect(this.buffer);
+                    this.editStatus();
+                }
             }
         } catch (err) {
             throw err;
@@ -385,13 +398,20 @@ export default class File {
     read(): any {
         try {
             var data = fs.readFileSync(this.path);
-            try {
-                this.content = data.toString();
-            } catch (err) {
-                this.content = '';
+            if (this.trak) {
+                try {
+                    this.content = data.toString();
+                } catch (err) {
+                    this.content = '';
+                }
+                this.buffer = data;
             }
-            this.buffer = data;
-            return this.content;
+            this.editStatus();
+            try {
+                return data.toString();
+            } catch (err) {
+                return data;
+            }
         } catch (err) {
             throw err;
         }
@@ -429,14 +449,22 @@ export default class File {
             this.lines = this.content.split('\n');
             this.lineCount = this.lines.length;
             this.buffer = Buffer.from(this.content);
+            this.editStatus();
         } catch (err) {
             throw err;
         }
         return this;
     }
-
+    /**
+     * this method will refresh the all the 
+     * attr in the file no mater what trak attr is 
+     */
     refresh() {
-        this.read();
+        if (this.trak) {
+            this.trak = true;
+            this.read();
+            this.trak = false;
+        } else { this.read() }
         this.editStatus();
         this.encoding = chardet.detect(this.buffer);
     }
@@ -445,20 +473,7 @@ export default class File {
      * @param newName the new name
      */
     rename(newName: string, noExt?) {
-        // cheking if there an ext
-        if (newName.indexOf('.') !== -1) {
-            fs.renameSync(this.path, newName);
-            this.setPath(path.resolve(newName));
-            return
-        }
-        // cheking if the noExt obj have been passed in
-        if (noExt === 'no Ext') {
-            fs.renameSync(this.path, newName);
-            this.setPath(path.resolve(newName));
-            return
-        }
-        // other cases it will add the ext
-        fs.renameSync(this.path, `${newName}.${this.ext}`);
+        fs.renameSync(this.path, newName);
         this.setPath(path.resolve(newName));
     }
     /**
@@ -480,8 +495,8 @@ export default class File {
         if (dir instanceof Dir) {
             this.moveTo(dir.relativePath());
         } else {
-            var newDir = new Dir(dir);
-            this.moveTo(newDir.relativePath());
+            var p = path.resolve(dir);
+            this.moveTo(p);
         }
     }
 
@@ -495,22 +510,23 @@ export default class File {
      * this method will convert the file encoding
      * @param newEncoding the new eoding
      */
-    convertEncoding(newEncoding) {
-
+    convertEncoding(newEncoding: BufferEncoding) {
         if (!Buffer.isEncoding(newEncoding)) {
             throw new Error('Invalid Encoding');
         }
         try {
             var newBuffer = encoding.convert(this.buffer, this.encoding, newEncoding);
+            this.write(newBuffer);
             this.buffer = newBuffer;
             this.content = this.buffer.toString();
             this.encoding = newEncoding;
+            this.editStatus();
         } catch (err) {
             throw err
         }
     }
     /** if the file is json it will parse it and return it */
-    toJson() {
+    toJson(): Object {
         var con = this.read();
         try {
             return JSON.parse(con);
