@@ -144,8 +144,7 @@ export default class File {
             return;
         }
         if (fs.existsSync(this.path) && !trak) {
-            var encode = chardet.detect(this.buffer);
-            this.encoding = encode;
+            this.encoding = 'UTF-8';
             this.setDefault();
             return;
         }
@@ -398,17 +397,12 @@ export default class File {
     read(): any {
         try {
             var data = fs.readFileSync(this.path);
-            if (this.trak) {
-                try {
-                    this.content = data.toString();
-                } catch (err) {
-                    this.content = '';
-                }
-                this.buffer = data;
-            }
+            this.encoding = chardet.detect(data);
+            this.buffer = data;
             this.editStatus();
             try {
-                return data.toString();
+                this.content = data.toString();
+                return this.content;
             } catch (err) {
                 return data;
             }
@@ -515,6 +509,10 @@ export default class File {
             throw new Error('Invalid Encoding');
         }
         try {
+            if (!this.trak) {
+                var encode = chardet.detect(Buffer.from(this.read()), { sampleSize: 32 });
+                this.encoding = encode;
+            }
             var newBuffer = encoding.convert(this.buffer, this.encoding, newEncoding);
             this.write(newBuffer);
             this.buffer = newBuffer;
