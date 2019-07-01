@@ -59,6 +59,7 @@ async function go() {
             json.version = newV;
 
             file.write(JSON.stringify(json));
+            commit();
         }
 
     } catch (err) { restore() }
