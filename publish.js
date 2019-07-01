@@ -53,8 +53,8 @@ async function go() {
 
         if (process.argv[2] !== '--save-git') {
             publish(process.argv[2]);
-            throw new Error('not');
         }
+        throw new Error('not');
 
     } catch (err) {
         if (err.message === 'not') {
