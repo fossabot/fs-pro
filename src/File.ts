@@ -158,7 +158,7 @@ export default class File {
                 throw new Error('Invalid Encoding')
             }
         } else {
-            this.encoding = 'utf8'
+            this.encoding = 'UTF-8'
         }
     }
     /**

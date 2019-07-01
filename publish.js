@@ -2,6 +2,8 @@ var File = require('./out/src/index').File;
 
 var file = new File('./package.json');
 
+var README = new File('./README.md');
+
 var json = JSON.parse(file.read());
 
 var regex = /([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})/;
@@ -24,11 +26,15 @@ if (num2 > 9) {
     num3++;
 }
 
+
 var newV = `${num1}.${num2}.${num3}`
 
 json.version = newV;
 
 file.write(JSON.stringify(json));
+
+README.write(README.read().replace('/* :ver: */', newV));
+
 
 console.log(num1, num2, num3);
 
@@ -63,7 +69,14 @@ const test = () => {
 }
 
 function restore() {
+
     var newV = `${prev.num1}.${prev.num2}.${prev.num3}`
+
+    README.write(
+        README.read()
+            .replace(`?label=npm%20version&message=${num1}.${num2}.${num3}`,
+                `?label=npm%20version&message=/* :ver: */`)
+    );
 
     json.version = newV;
 
