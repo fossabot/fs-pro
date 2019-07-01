@@ -53,13 +53,7 @@ async function go() {
 
         if (process.argv[2] !== '--save-git') {
             publish(process.argv[2]);
-        }
-
-        README.write(
-            README.read()
-                .replace(`?label=npm%20version&message=${num1}.${num2}.${num3}`,
-                    `?label=npm%20version&message=/* :ver: */`)
-        );
+        } else { throw new Error('') }
 
     } catch (err) { restore() }
 }
