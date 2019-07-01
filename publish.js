@@ -53,6 +53,12 @@ async function go() {
 
         if (process.argv[2] !== '--save-git') {
             publish(process.argv[2]);
+        } else {
+            var newV = `${prev.num1}.${prev.num2}.${prev.num3}`
+
+            json.version = newV;
+
+            file.write(JSON.stringify(json));
         }
 
     } catch (err) { restore() }
