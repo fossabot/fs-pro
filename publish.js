@@ -91,18 +91,21 @@ function go() {
         console.log("----------- add the files to get ---------");
         cp.execSync('git commit -a -m \"Initial Commit\"');
         console.log("------------ commited the changes --------")
-        cp.execSync('git push github master');
-        console.log("------------- pushed to github ------------");
+        if (process.argv[3] !== 'no-push') {
+            cp.execSync('git push github master');
+            console.log("------------- pushed to github ------------");
+        }
         if (process.argv[2] !== '') {
-            if (process.argv[2] === '--git-save') {
+            if (process.argv[2] === '--save-git') {
                 throw new Error('');
             }
             var tag = process.argv[2].replace('--', '');
             cp.execSync(`npm publish --tag ${tag}`);
+            console.log("------------- succesfly published ----------");
         } else {
             cp.execSync(`npm publish`);
+            console.log("------------- succesfly published ----------");
         }
-        console.log("------------- succesfly published ----------");
     } catch (err) { restore() }
 }
 
