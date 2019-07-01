@@ -93,7 +93,15 @@ function go() {
         console.log("------------ commited the changes --------")
         cp.execSync('git push github master');
         console.log("------------- pushed to github ------------");
-        cp.execSync('npm publish');
+        if (process.argv[2] !== '') {
+            if (process.argv[2] === '--git-save') {
+                throw new Error('');
+            }
+            var tag = process.argv[2].replace('--', '');
+            cp.execSync(`npm publish --tag ${tag}`);
+        } else {
+            cp.execSync(`npm publish`);
+        }
         console.log("------------- succesfly published ----------");
     } catch (err) { restore() }
 }
