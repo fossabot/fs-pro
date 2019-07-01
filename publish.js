@@ -53,9 +53,16 @@ async function go() {
 
         if (process.argv[2] !== '--save-git') {
             publish(process.argv[2]);
-        } else { throw new Error('') }
+            throw new Error('not');
+        }
 
-    } catch (err) { restore() }
+    } catch (err) {
+        if (err.message === 'not') {
+            restore(false);
+        } else {
+            restore(true);
+        }
+    }
 }
 
 
@@ -88,7 +95,7 @@ const test = () => {
     });
 }
 
-function restore() {
+function restore(cond) {
 
     var newV = `${prev.num1}.${prev.num2}.${prev.num3}`
 
@@ -101,8 +108,11 @@ function restore() {
     json.version = newV;
 
     file.write(JSON.stringify(json));
-
-    console.log("--------------- failed ---------------------");
+    if (!cond) {
+        commit();
+    } else {
+        console.log("--------------- failed ---------------------");
+    }
 }
 
 function Push() {
