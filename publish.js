@@ -1,3 +1,5 @@
+const cp = require('child_process');
+
 var File = require('./out/src/index').File;
 
 var file = new File('./package.json');
@@ -16,55 +18,73 @@ var num3 = Number(match[3]);
 
 var prev = { num1, num2, num3 };
 
-num3++;
-if (num3 > 9) {
-    num3 = 0;
-    num2++;
+async function go() {
+    try {
+        num3++;
+        if (num3 > 9) {
+            num3 = 0;
+            num2++;
+        }
+        if (num2 > 9) {
+            num2 = 0;
+            num3++;
+        }
+        var newV = `${num1}.${num2}.${num3}`
+
+        json.version = newV;
+
+        file.write(JSON.stringify(json));
+
+        README.write(README.read().replace('/* :ver: */', newV));
+
+        console.log(num1, num2, num3);
+
+        await compiled();
+
+        await test();
+
+        add();
+
+        commit();
+
+        if (process.argv[3] !== '--no-push') {
+            Push();
+        }
+
+        if (process.argv[2] !== '--save-git') {
+            publish(process.argv[2]);
+        }
+
+    } catch (err) { restore() }
 }
-if (num2 > 9) {
-    num2 = 0;
-    num3++;
-}
 
-
-var newV = `${num1}.${num2}.${num3}`
-
-json.version = newV;
-
-file.write(JSON.stringify(json));
-
-README.write(README.read().replace('/* :ver: */', newV));
-
-
-console.log(num1, num2, num3);
-
-const cp = require('child_process');
 
 const compiled = () => {
-    cp.exec('tsc test --outdir out ', function (err, stdout, sterr) {
-        if (err) {
-            console.log(sterr);
-            console.log("--------------- failed ---------------------");
-            restore();
-            return
-        }
-        console.log(stdout);
-        console.log("---------- compiled the files ------------");
-        test();
-    });
+    return new Promise((res, rej) => {
+        cp.exec('tsc test --outdir out ', function (err, stdout, sterr) {
+            if (err) {
+                console.log(sterr);
+                rej();
+                return
+            }
+            console.log("---------- compiled the files ------------");
+            res();
+        });
+    })
 }
 
 const test = () => {
-    cp.exec('npm test', function (err, stdout, sterr) {
-        if (err) {
-            console.log(sterr);
-            console.log("--------------- failed ---------------------");
-            restore();
-            return
-        }
-        console.log(stdout);
-        console.log('------------ tested ----------------------');
-        go();
+    return new Promise((res, rej) => {
+        cp.exec('npm test', function (err, stdout, sterr) {
+            if (err) {
+                console.log(sterr);
+                rej();
+                return
+            }
+            console.log(stdout);
+            console.log('------------ tested ----------------------');
+            res();
+        });
     });
 }
 
@@ -85,28 +105,28 @@ function restore() {
     console.log("--------------- failed ---------------------");
 }
 
-function go() {
-    try {
-        cp.execSync('git add -A');
-        console.log("----------- add the files to get ---------");
-        cp.execSync('git commit -a -m \"Initial Commit\"');
-        console.log("------------ commited the changes --------")
-        if (process.argv[3] !== 'no-push') {
-            cp.execSync('git push github master');
-            console.log("------------- pushed to github ------------");
-        }
-        if (process.argv[2] !== '') {
-            if (process.argv[2] === '--save-git') {
-                throw new Error('');
-            }
-            var tag = process.argv[2].replace('--', '');
-            cp.execSync(`npm publish --tag ${tag}`);
-            console.log("------------- succesfly published ----------");
-        } else {
-            cp.execSync(`npm publish`);
-            console.log("------------- succesfly published ----------");
-        }
-    } catch (err) { restore() }
+function Push() {
+    cp.execSync('git push github master');
+    console.log("------------- pushed to github ------------");
 }
 
-compiled();
+function add() {
+    cp.execSync('git add -A');
+    console.log("----------- add the files to get ---------");
+}
+
+function commit() {
+    cp.execSync('git commit -a -m \"Initial Commit\"');
+    console.log("------------ commited the changes --------")
+}
+
+function publish(tag) {
+    tag = tag.replace('--', '');
+    if (tag) {
+        cp.execSync(`npm publish --tag ${tag}`);
+    } else {
+        cp.execSync(`npm publish`);
+    }
+    console.log("------------- succesfly published ----------");
+}
+go();
