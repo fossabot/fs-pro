@@ -1,3 +1,5 @@
+console.log(process.argv);
+
 const cp = require('child_process');
 
 var File = require('./out/src/index').File;
@@ -35,8 +37,6 @@ async function go() {
 
         file.write(JSON.stringify(json));
 
-        README.write(README.read().replace('/* :ver: */', newV));
-
         console.log(num1, num2, num3);
 
         await compiled();
@@ -54,15 +54,8 @@ async function go() {
         if (process.argv[2] !== '--save-git') {
             publish(process.argv[2]);
         }
-        throw new Error('not');
 
-    } catch (err) {
-        if (err.message === 'not') {
-            restore(false);
-        } else {
-            restore(true);
-        }
-    }
+    } catch (err) { restore() }
 }
 
 
@@ -95,7 +88,7 @@ const test = () => {
     });
 }
 
-function restore(cond) {
+function restore() {
 
     var newV = `${prev.num1}.${prev.num2}.${prev.num3}`
 
@@ -108,12 +101,9 @@ function restore(cond) {
     json.version = newV;
 
     file.write(JSON.stringify(json));
-    if (!cond) {
-        commit();
-    } else {
-        console.log("--------------- failed ---------------------");
-    }
+    console.log("--------------- failed ---------------------");
 }
+
 
 function Push() {
     cp.execSync('git push github master');
@@ -131,6 +121,7 @@ function commit() {
 }
 
 function publish(tag) {
+    README.write(README.read().replace('/* :ver: */', newV));
     tag = tag.replace('--', '');
     if (tag) {
         cp.execSync(`npm publish --tag ${tag}`);
