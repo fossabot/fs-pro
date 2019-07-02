@@ -37,7 +37,7 @@ npm i fs-pro
 | name       | string       | the name of the file with out the ext      |
 | path       | string       | the absloute path of the file              |
 | encoding   | BufferEncoding |      the encoding of the file            |
-| trak       | boolean      | if this is true will update the buffer, content, lines and lineCout attrs when you use any of the file methods |  
+| trak       | boolean      | will update the buffer, content, lines and lineCout attrs if true |  
 | buffer     | Buffer       | the buffer version of the file             |
 | content    | string       | the content of the file                    |
 | lines      | string[]     | the lines of the file as an arr            |
