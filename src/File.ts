@@ -119,6 +119,7 @@ export default class File {
     hardLinks: number;
     /** the User Identifier of the file */
     userIdentifier: number;
+    /** when it's true it will keep trak of some attrs like content */
     trak: boolean;
 
     constructor(name: string, trak: boolean = true, enconding?: BufferEncoding) {

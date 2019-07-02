@@ -27,8 +27,8 @@
     },
     "dependencies": {
         "chardet": "^0.7.0",
-        "convert-size": "^1.0.1",
-        "convert-status": "^1.0.1",
+        "convert-size": "*",
+        "convert-status": "*",
         "encoding": "^0.1.12"
     }
 }
