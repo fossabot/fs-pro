@@ -6,24 +6,22 @@ fs-pro is a package to work with files and dir more easly
 
 ## what's new 
 
-fixed some error
-like:
-this will rename it with the same the ext
-making it impossible to change the ext
+### async
 
-``` js
-const { File } = require('fs-pro');
-var file = new File('some.txt');
-file.rename('test'); 
-console.log(file.baseName); // it will output test.txt
-```
-now that if fixed
-``` js
-const { File } = require('fs-pro');
+now you can use the whole package async
+example:
+```js
+const { File, Dir } = require('fs-pro/async');
+// or
+import { File, Dir } from 'fs-pro/async'
 
-var file = new File('some.txt');
+async function run(){
+    var file = new File('sample.txt');
+    await file.write('hello world');
+    console.log(await file.read()); // => hello world
+}
 
-file.rename('test.js') // for example
+run();
 ```
 
 ## installtion
