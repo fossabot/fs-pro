@@ -1,13 +1,39 @@
 # fs-pro
-[![npm version](https://img.shields.io/static/v1.svg?label=npm%20version&message=1.3.7&color=green)](https://www.npmjs.com/package/fs-pro)
+[![npm version](https://img.shields.io/static/v1.svg?label=npm%20version&message=/* :ver: */&color=green)](https://www.npmjs.com/package/fs-pro)
 [![LICENSE](https://img.shields.io/static/v1.svg?label=LICENSE&message=MIT&color=green)](https://github.com/AliBasicCoder/fs-pro/blob/master/LICENSE)
 
 fs-pro is a package to work with files and dir more easly
 
-## installtion
+# installtion
 ```
 npm i fs-pro
 ```
+
+# what's new 
+
+## async
+
+now you can use the whole package with promisess
+``` js
+const { File } = require('fs-pro/async');
+// or
+import { File } from 'fs-pro/async';
+
+async function run(){
+    try {
+        var file = new File('some.txt');
+        await file.write('hello world');
+        console.log(await file.read());
+        // => hello world
+    } catch(err){
+        console.log(err);
+    }
+}
+run()
+
+```
+
+
 
 # working with Files
 ## the file class attr

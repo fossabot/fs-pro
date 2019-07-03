@@ -20,6 +20,8 @@ var num3 = Number(match[3]);
 
 var prev = { num1, num2, num3 };
 
+var newV = `${num1}.${num2}.${num3}`
+
 async function go() {
     try {
         num3++;
@@ -31,7 +33,6 @@ async function go() {
             num2 = 0;
             num3++;
         }
-        var newV = `${num1}.${num2}.${num3}`
 
         json.version = newV;
 
@@ -47,20 +48,22 @@ async function go() {
 
         commit();
 
+        README.write(README.read().replace('/* :ver: */', newV));
+
         if (process.argv[3] !== '--no-push') {
             Push();
         }
 
         if (process.argv[2] !== '--save-git') {
             publish(process.argv[2]);
+
+            README.write(
+                README.read()
+                    .replace(`?label=npm%20version&message=${num1}.${num2}.${num3}`,
+                        `?label=npm%20version&message=/* :ver: */`)
+            );
         } else {
-            var newV = `${prev.num1}.${prev.num2}.${prev.num3}`
-
-            json.version = newV;
-
-            file.write(JSON.stringify(json));
-
-            commit();
+            restore();
         }
 
     } catch (err) {
@@ -133,7 +136,6 @@ function commit() {
 }
 
 function publish(tag) {
-    README.write(README.read().replace('/* :ver: */', newV));
     tag = tag.replace('--', '');
     if (tag) {
         cp.execSync(`npm publish --tag ${tag}`);
