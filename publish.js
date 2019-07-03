@@ -62,6 +62,8 @@ async function go() {
                     .replace(`?label=npm%20version&message=${num1}.${num2}.${num3}`,
                         `?label=npm%20version&message=/* :ver: */`)
             );
+
+            commit();
         } else {
             restore();
         }
@@ -136,8 +138,8 @@ function commit() {
 }
 
 function publish(tag) {
-    tag = tag.replace('--', '');
     if (tag) {
+        tag = tag.replace('--', '');
         cp.execSync(`npm publish --tag ${tag}`);
     } else {
         cp.execSync(`npm publish`);
