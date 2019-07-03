@@ -74,6 +74,7 @@ const compiled = () => {
                 rej();
                 return
             }
+            cp.execSync('cd async && tsc index --outdir out && cd ..');
             console.log("---------- compiled the files ------------");
             res();
         });

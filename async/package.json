@@ -1,0 +1,20 @@
+{
+  "name": "async",
+  "version": "1.0.0",
+  "description": "working with files easly and async",
+  "main": "out/async/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliBasicCoder/fs-pro.git"
+  },
+  "keywords": [
+    "fs-pro",
+    "async"
+  ],
+  "author": "ali_ahmed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AliBasicCoder/fs-pro/issues"
+  },
+  "homepage": "https://github.com/AliBasicCoder/fs-pro#readme"
+}

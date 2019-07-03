@@ -64,5 +64,3 @@ typings/
 test.*
 *.txt
 test/
-
-async/
