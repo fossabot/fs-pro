@@ -44,7 +44,7 @@ run()
 | path       | string       | the absloute path of the file              |
 | encoding   | BufferEncoding |      the encoding of the file            |
 | trak       | boolean      | will update the buffer, content, lines and lineCout attrs if true |  
-| buffer     | <style color='red'>Buffer</style>       | the buffer version of the file             |
+| buffer     | Buffer       | the buffer version of the file             |
 | content    | string       | the content of the file                    |
 | lines      | string[]     | the lines of the file as an arr            |
 | lineCount  | number       | how many lines in the file                 |
