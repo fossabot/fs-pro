@@ -23,12 +23,16 @@
     "devDependencies": {
         "@types/mocha": "^5.2.7",
         "@types/node": "^12.0.10",
-        "mocha": "^6.1.4"
+        "mocha": "^6.1.4",
+        "subpackage": "^1.1.0"
     },
     "dependencies": {
         "chardet": "^0.7.0",
         "convert-size": "*",
         "convert-status": "*",
         "encoding": "^0.1.12"
-    }
+    },
+    "subPackages": [
+        "async"
+    ]
 }
