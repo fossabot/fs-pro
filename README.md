@@ -1,9 +1,6 @@
 # fs-pro
-<<<<<<< HEAD
-[![npm version](https://img.shields.io/static/v1.svg?label=npm%20version&message=1.3.8&color=green)](https://www.npmjs.com/package/fs-pro)
-=======
+
 [![npm version](https://img.shields.io/badge/dynamic/json.svg?color=green&label=npm%20version&query=version&url=https%3A%2F%2Fraw.githubusercontent.com%2FAliBasicCoder%2Ffs-pro%2Fmaster%2Fpackage.json)](https://www.npmjs.com/package/fs-pro)
->>>>>>> dfd9fb57f7dee333655db76d59ce3cba4692830e
 [![LICENSE](https://img.shields.io/static/v1.svg?label=LICENSE&message=MIT&color=green)](https://github.com/AliBasicCoder/fs-pro/blob/master/LICENSE)
 
 fs-pro is a package to work with files and dir more easly
@@ -44,27 +41,27 @@ run()
 
 | attr       | type         | decription                                 |
 | :--------: | :----:       |  :--------:                                |
-| name       | string       | the name of the file with out the ext      |
-| path       | string       | the absloute path of the file              |
-| encoding   | BufferEncoding |      the encoding of the file            |
-| trak       | boolean      | will update the buffer, content, lines and lineCout attrs if true |  
-| buffer     | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Buffer.png)   | the buffer version of the file             |
-| content    | string       | the content of the file                    |
-| lines      | string[]     | the lines of the file as an arr            |
-| lineCount  | number       | how many lines in the file                 |
-| size       | string       | the size of the file as  1kb 1mb and so on |
-| accessedAt | Date         | the date when the file is last accseed     |
-| modifiedAt | Date         | the date when the file was last modified   |
-| changedAt  | Date         | the date when the file was last changed    |
-| createdAt  | Date         | the date when the filewas created          |
-| deviceID   | number       | the device id                              |
-| isWriteable| boolean      | it's true when the file is writeable       |
-| isReadable | boolean      | it's true when the file is readable        |
-| isExecuteable |  boolean  | it's true when the file is executeable     |
-| dirName    | string       | the dir name of the file                   |
-| root       | string       | the root of the file                       |
-| ext        | string       | the extension of the file                  |
-| baseName   | string       | the name with extion of the file           |
+| name       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the name of the file with out the ext      |
+| path       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the absloute path of the file              |
+| encoding   | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/BufferEncoding.png) |      the encoding of the file            |
+| trak       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Boolean.png)        | will update the buffer, content, lines and lineCout attrs if true |  
+| buffer     | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Buffer.png)   | the buffer version of the file             |
+| content    | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the content of the file                    |
+| lines      | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/StringArr.png)     | the lines of the file as an arr            |
+| lineCount  | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Number.png)       | how many lines in the file                 |
+| size       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the size of the file as  1kb 1mb and so on |
+| accessedAt | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Date.png)         | the date when the file is last accseed     |
+| modifiedAt | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Date.png)         | the date when the file was last modified   |
+| changedAt  | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Date.png)         | the date when the file was last changed    |
+| createdAt  | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Date.png)         | the date when the filewas created          |
+| deviceID   | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Number.png)       | the device id                              |
+| isWriteable| ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Boolean.png)      | it's true when the file is writeable       |
+| isReadable | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Boolean.png)      | it's true when the file is readable        |
+| isExecuteable |  ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Boolean.png)  | it's true when the file is executeable     |
+| dirName    | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the dir name of the file                   |
+| root       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the root of the file                       |
+| ext        | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the extension of the file                  |
+| baseName   | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the name with extion of the file           |
 
 NOTE: changing any of this attrs will not efect the file
 please use the methods bellow
