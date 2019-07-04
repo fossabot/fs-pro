@@ -1,5 +1,5 @@
 # fs-pro
-[![npm version](https://img.shields.io/static/v1.svg?label=npm%20version&message=1.3.8&color=green)](https://www.npmjs.com/package/fs-pro)
+[![npm version](https://img.shields.io/badge/dynamic/json.svg?color=green&label=npm%20version&query=version&url=https%3A%2F%2Fraw.githubusercontent.com%2FAliBasicCoder%2Ffs-pro%2Fmaster%2Fpackage.json)](https://www.npmjs.com/package/fs-pro)
 [![LICENSE](https://img.shields.io/static/v1.svg?label=LICENSE&message=MIT&color=green)](https://github.com/AliBasicCoder/fs-pro/blob/master/LICENSE)
 
 fs-pro is a package to work with files and dir more easly
