@@ -39,29 +39,29 @@ run()
 # working with Files
 ## the file class attr
 
-| attr       | type         | decription                                 |
-| :--------: | :----:       |  :--------:                                |
-| name       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the name of the file with out the ext      |
-| path       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the absloute path of the file              |
-| encoding   | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/BufferEncoding.png) |      the encoding of the file            |
-| trak       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Boolean.png)        | will update the buffer, content, lines and lineCout attrs if true |  
-| buffer     | ![ ](./Images/Buffer.png)   | the buffer version of the file             |
-| content    | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the content of the file                    |
-| lines      | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/StringArr.png)     | the lines of the file as an arr            |
-| lineCount  | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Number.png)       | how many lines in the file                 |
-| size       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the size of the file as  1kb 1mb and so on |
-| accessedAt | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Date.png)         | the date when the file is last accseed     |
-| modifiedAt | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Date.png)         | the date when the file was last modified   |
-| changedAt  | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Date.png)         | the date when the file was last changed    |
-| createdAt  | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Date.png)         | the date when the filewas created          |
-| deviceID   | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Number.png)       | the device id                              |
-| isWriteable| ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Boolean.png)      | it's true when the file is writeable       |
-| isReadable | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Boolean.png)      | it's true when the file is readable        |
-| isExecuteable |  ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Boolean.png)  | it's true when the file is executeable     |
-| dirName    | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the dir name of the file                   |
-| root       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the root of the file                       |
-| ext        | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the extension of the file                  |
-| baseName   | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the name with extion of the file           |
+| attr          | type                                                                                          | decription                                                        |
+| :--------:    | :----------------------------------------------------------------------------:                |  :------------------------------------------------------------:   |
+| name          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the name of the file with out the ext                             |
+| path          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the absloute path of the file                                     |
+| encoding      | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=BufferEncoding&color=red) |      the encoding of the file                                     |
+| trak          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)        | will update the buffer, content, lines and lineCout attrs if true |  
+| buffer        | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Buffer&color=orange)         | the buffer version of the file                                    |
+| content       | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the content of the file                                           |
+| lines         | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String%5B%20%5D&color=green)      | the lines of the file as an arr                                   |
+| lineCount     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Number&color=yellow)         | how many lines in the file                                        |
+| size          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the size of the file as  1kb 1mb and so on                        |
+| accessedAt    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)           | the date when the file is last accseed                            |
+| modifiedAt    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)           | the date when the file was last modified                          |
+| changedAt     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)           | the date when the file was last changed                           |
+| createdAt     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)           | the date when the filewas created                                 |
+| deviceID      | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Number&color=yellow)         | the device id                                                     |
+| isWriteable   | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)        | it's true when the file is writeable                              |
+| isReadable    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)        | it's true when the file is readable                               |
+| isExecuteable | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)        | it's true when the file is executeable                            |
+| dirName       | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the dir name of the file                                          |
+| root          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the root of the file                                              |
+| ext           | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the extension of the file                                         |
+| baseName      | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the name with extion of the file                                  |
 
 NOTE: changing any of this attrs will not efect the file
 please use the methods bellow
