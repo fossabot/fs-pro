@@ -1,9 +1,6 @@
 # fs-pro
-<<<<<<< HEAD
 [![npm version](https://img.shields.io/static/v1.svg?label=npm%20version&message=1.3.8&color=green)](https://www.npmjs.com/package/fs-pro)
-=======
 [![npm version](https://img.shields.io/badge/dynamic/json.svg?color=green&label=npm%20version&query=version&url=https%3A%2F%2Fraw.githubusercontent.com%2FAliBasicCoder%2Ffs-pro%2Fmaster%2Fpackage.json)](https://www.npmjs.com/package/fs-pro)
->>>>>>> dfd9fb57f7dee333655db76d59ce3cba4692830e
 [![LICENSE](https://img.shields.io/static/v1.svg?label=LICENSE&message=MIT&color=green)](https://github.com/AliBasicCoder/fs-pro/blob/master/LICENSE)
 
 fs-pro is a package to work with files and dir more easly
@@ -48,7 +45,7 @@ run()
 | path       | string       | the absloute path of the file              |
 | encoding   | BufferEncoding |      the encoding of the file            |
 | trak       | boolean      | will update the buffer, content, lines and lineCout attrs if true |  
-| buffer     | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Buffer.png)   | the buffer version of the file             |
+| buffer     | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Buffer.png)   | the buffer version of the file             |
 | content    | string       | the content of the file                    |
 | lines      | string[]     | the lines of the file as an arr            |
 | lineCount  | number       | how many lines in the file                 |
