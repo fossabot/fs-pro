@@ -45,7 +45,7 @@ run()
 | path       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the absloute path of the file              |
 | encoding   | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/BufferEncoding.png) |      the encoding of the file            |
 | trak       | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Boolean.png)        | will update the buffer, content, lines and lineCout attrs if true |  
-| buffer     | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Buffer.png)   | the buffer version of the file             |
+| buffer     | ![ ](./Images/Buffer.png)   | the buffer version of the file             |
 | content    | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/String.png)       | the content of the file                    |
 | lines      | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/StringArr.png)     | the lines of the file as an arr            |
 | lineCount  | ![ ](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/Images/Number.png)       | how many lines in the file                 |
