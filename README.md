@@ -8,10 +8,9 @@
 fs-pro is a package to work with files and dir more easly
 
 ## installtion
-```
+``` bash
 npm i fs-pro
 ```
-
 ## what's new 
 
 ### async
@@ -45,21 +44,21 @@ run()
 | :--------:    | :----------------------------------------------------------------------------:                |  :------------------------------------------------------------:   |
 | name          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the name of the file with out the ext                             |
 | path          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the absloute path of the file                                     |
-| encoding      | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=BufferEncoding&color=red) |      the encoding of the file                                     |
-| trak          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)        | will update the buffer, content, lines and lineCout attrs if true |  
-| buffer        | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Buffer&color=orange)         | the buffer version of the file                                    |
+| encoding      | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=BufferEncoding&color=red)         |      the encoding of the file                                     |
+| trak          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | will update the buffer, content, lines and lineCout attrs if true |  
+| buffer        | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Buffer&color=orange)              | the buffer version of the file                                    |
 | content       | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the content of the file                                           |
 | lines         | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String%5B%20%5D&color=green)      | the lines of the file as an arr                                   |
-| lineCount     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Number&color=yellow)         | how many lines in the file                                        |
+| lineCount     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Number&color=yellow)              | how many lines in the file                                        |
 | size          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the size of the file as  1kb 1mb and so on                        |
-| accessedAt    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)           | the date when the file is last accseed                            |
-| modifiedAt    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)           | the date when the file was last modified                          |
-| changedAt     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)           | the date when the file was last changed                           |
-| createdAt     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)           | the date when the filewas created                                 |
-| deviceID      | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Number&color=yellow)         | the device id                                                     |
-| isWriteable   | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)        | it's true when the file is writeable                              |
-| isReadable    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)        | it's true when the file is readable                               |
-| isExecuteable | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)        | it's true when the file is executeable                            |
+| accessedAt    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the file is last accseed                            |
+| modifiedAt    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the file was last modified                          |
+| changedAt     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the file was last changed                           |
+| createdAt     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the filewas created                                 |
+| deviceID      | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Number&color=yellow)              |  the device id                                                    |
+| isWriteable   | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | it's true when the file is writeable                              |
+| isReadable    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | it's true when the file is readable                               |
+| isExecuteable | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | it's true when the file is executeable                            |
 | dirName       | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the dir name of the file                                          |
 | root          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the root of the file                                              |
 | ext           | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the extension of the file                                         |
@@ -288,12 +287,12 @@ var dirs = Dir.multiple(['test', 'test1', 'test2']);
 
 dirs.forEach(dir => console.log(dir.path));
 ```
-### delete()
+### delete( )
 ```js
 // it will delete the dir no matter it's empty or not
 dir.delete()
 ```
-### clear()
+### clear( )
 ```js
 // it will delete every thing in the dir except the dir
 dir.clear()
@@ -435,7 +434,7 @@ dir.deleteEvery('*.txt'); // will delete every single text file in the dir
 
 dir.deleteEvery('dumy') // will delete every single thing called dumy
 ```
-### updateStatus()
+### updateStatus( )
 ```js
 // will update the dir status
 dir.updateStatus();
@@ -445,7 +444,7 @@ const { accessedAt,
         createdAt,
         deviceID } = dir
 ```
-### relativePath()
+### relativePath( )
 ```js
 // will return the realtive path
 var rPath = dir.relativePath()
