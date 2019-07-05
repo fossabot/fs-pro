@@ -143,34 +143,10 @@ export class File {
         }
     }
     /**
-     * this method will get the files you want to
-     * work with as an array
-     * @param {string[]} files the files you want to work with
-     * @param {boolean} trak the trak of all of them
-     */
-    public static multiple(files: string[], trak: boolean): File[] {
-        const arr = [];
-        if (trak === undefined) trak = true;
-        for (let item of files) {
-            arr.push(new File(item, trak));
-        }
-        return arr;
-    }
-
-    private setPath(dist: string) {
-        this.path = dist;
-        const obj = path.parse(this.path);
-        this.baseName = obj.base;
-        this.name = obj.name;
-        this.dirName = obj.dir;
-        this.root = obj.root;
-        this.ext = obj.ext.replace('.', '');
-    }
-    /**
      * this method will move you file to the dist you pass in
      * @param {string} dist the dist that you want the file to be moved to
      */
-    public moveTo(dist: string) {
+    public moveTo(dist: string): void {
         this.copyTo(dist);
         this.delete(true);
         this.setPath(path.resolve(path.join(dist, this.baseName)));
@@ -181,22 +157,6 @@ export class File {
      */
     public relativePath(): string {
         return path.relative('.', this.path);
-    }
-    private editStatus(): void {
-        this.isWriteable = this.testAccess('write');
-        this.isReadable = this.testAccess('read');
-        this.isExecuteable = this.testAccess('execute');
-        const status = convertStatus(this.status());
-        for (const key in status) {
-            if (status.hasOwnProperty(key) && key !== 'isDirectory' && key != 'isFile') {
-                const element = status[key];
-                this[key] = element;
-            }
-        }
-    }
-    private status(): fs.Stats {
-        const stat = fs.statSync(this.path);
-        return stat;
     }
     /**
      * this methods will change the mode of the file
@@ -286,12 +246,6 @@ export class File {
             this.append(dist);
         }
         return this;
-    }
-    private setDefault(): void {
-        this.content = '';
-        this.buffer = Buffer.alloc(0);
-        this.lineCount = 0;
-        this.lines = ['']
     }
     /**
      * this method will delete the file
@@ -516,6 +470,54 @@ export class File {
         } catch (err) {
             throw err
         }
+    }
+
+    private setPath(dist: string) {
+        this.path = dist;
+        const obj = path.parse(this.path);
+        this.baseName = obj.base;
+        this.name = obj.name;
+        this.dirName = obj.dir;
+        this.root = obj.root;
+        this.ext = obj.ext.replace('.', '');
+    }
+
+    private editStatus(): void {
+        this.isWriteable = this.testAccess('write');
+        this.isReadable = this.testAccess('read');
+        this.isExecuteable = this.testAccess('execute');
+        const status = convertStatus(this.status());
+        for (const key in status) {
+            if (status.hasOwnProperty(key) && key !== 'isDirectory' && key != 'isFile') {
+                const element = status[key];
+                this[key] = element;
+            }
+        }
+    }
+
+    private setDefault(): void {
+        this.content = '';
+        this.buffer = Buffer.alloc(0);
+        this.lineCount = 0;
+        this.lines = ['']
+    }
+
+    private status(): fs.Stats {
+        const stat = fs.statSync(this.path);
+        return stat;
+    }
+    /**
+    * this method will get the files you want to
+    * work with as an array
+    * @param {string[]} files the files you want to work with
+    * @param {boolean} trak the trak of all of them
+    */
+    public static multiple(files: string[], trak: boolean): File[] {
+        const arr = [];
+        for (let item of files) {
+            arr.push(new File(item, trak));
+        }
+        return arr;
     }
 }
 
