@@ -48,7 +48,7 @@ export class File {
     /** it's readable when the file is Readable */
     public isReadable: boolean;
     /** it's true when the file is Excutable */
-    isExecuteable: boolean;
+    public isExecuteable: boolean;
     /** the Dirname fo the file */
     public dirName: string;
     /** the Root of the file */
@@ -494,7 +494,7 @@ export class File {
                 var encode = chardet.detect(Buffer.from(this.read()), { sampleSize: 32 });
                 this.encoding = encode;
             }
-            var newBuffer = encoding.convert(this.buffer, this.encoding, newEncoding);
+            const newBuffer = encoding.convert(this.buffer, this.encoding, newEncoding, true);
             this.write(newBuffer);
             this.buffer = newBuffer;
             this.content = this.buffer.toString();
@@ -506,7 +506,7 @@ export class File {
     }
     /** if the file is json it will parse it and return it */
     toJson(): Object {
-        var con = this.read();
+        const con = this.read();
         try {
             return JSON.parse(con);
         } catch (err) {
