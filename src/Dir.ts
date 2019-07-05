@@ -332,7 +332,7 @@ export class Dir {
      */
     public getDir(name: string): Dir {
         const dirs: Dir[] = [];
-        this.foreachDir(function (dir) {
+        this.foreachDir(dir => {
             if (dir.name === name) {
                 dirs.push(dir);
             }
@@ -347,7 +347,7 @@ export class Dir {
      */
     public getDirs(name: string): Dir[] {
         const dirs: Dir[] = [];
-        this.foreachDir(function (dir) {
+        this.foreachDir(dir => {
             if (dir.name === name) {
                 dirs.push(dir);
             }

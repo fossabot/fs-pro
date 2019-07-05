@@ -40,11 +40,11 @@ run()
 ## working with Files
 ### the file class attr
 
-| attr          | type                                                                                          | decription                                                        |
-| :--------:    | :----------------------------------------------------------------------------:                |  :------------------------------------------------------------:   |
+| attr          | type                                                                                                                          | decription                                                        |
+| :----------:  | :------------------------------------------------------------------------------------------------------------------------:    |  :------------------------------------------------------------:   |
 | name          | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the name of the file with out the ext                             |
 | path          | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the absloute path of the file                                     |
-| encoding      | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=BufferEncoding&color=red)         |      the encoding of the file                                     |
+| encoding      | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=BufferEncoding&color=red)         | the encoding of the file                                          |
 | trak          | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | will update the buffer, content, lines and lineCout attrs if true |  
 | buffer        | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Buffer&color=orange)              | the buffer version of the file                                    |
 | content       | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the content of the file                                           |
@@ -252,7 +252,7 @@ file.convertEncoding('ascii');
 ## Dir class attr
 | attr       | type         | decription                                 |
 | :--------: | :----:       |  :--------:                                |
-| files      | any[]        | an array of the dir and files i n the dir  |
+| files      | any          | an array of the dir and files i n the dir  |
 | path       | string       | the absoulte path of the path              |
 | name       | string       | the name of the dir                        |
 | size       | string       | the size of the dir                        | 
