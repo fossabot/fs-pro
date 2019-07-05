@@ -42,27 +42,27 @@ run()
 
 | attr          | type                                                                                          | decription                                                        |
 | :--------:    | :----------------------------------------------------------------------------:                |  :------------------------------------------------------------:   |
-| name          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the name of the file with out the ext                             |
-| path          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the absloute path of the file                                     |
-| encoding      | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=BufferEncoding&color=red)         |      the encoding of the file                                     |
-| trak          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | will update the buffer, content, lines and lineCout attrs if true |  
-| buffer        | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Buffer&color=orange)              | the buffer version of the file                                    |
-| content       | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the content of the file                                           |
-| lines         | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String%5B%20%5D&color=green)      | the lines of the file as an arr                                   |
-| lineCount     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Number&color=yellow)              | how many lines in the file                                        |
-| size          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the size of the file as  1kb 1mb and so on                        |
-| accessedAt    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the file is last accseed                            |
-| modifiedAt    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the file was last modified                          |
-| changedAt     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the file was last changed                           |
-| createdAt     | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the filewas created                                 |
-| deviceID      | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Number&color=yellow)              |  the device id                                                    |
-| isWriteable   | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | it's true when the file is writeable                              |
-| isReadable    | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | it's true when the file is readable                               |
-| isExecuteable | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | it's true when the file is executeable                            |
-| dirName       | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the dir name of the file                                          |
-| root          | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the root of the file                                              |
-| ext           | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the extension of the file                                         |
-| baseName      | ![ ](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the name with extion of the file                                  |
+| name          | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the name of the file with out the ext                             |
+| path          | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the absloute path of the file                                     |
+| encoding      | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=BufferEncoding&color=red)         |      the encoding of the file                                     |
+| trak          | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | will update the buffer, content, lines and lineCout attrs if true |  
+| buffer        | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Buffer&color=orange)              | the buffer version of the file                                    |
+| content       | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the content of the file                                           |
+| lines         | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String%5B%20%5D&color=green)      | the lines of the file as an arr                                   |
+| lineCount     | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Number&color=yellow)              | how many lines in the file                                        |
+| size          | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the size of the file as  1kb 1mb and so on                        |
+| accessedAt    | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the file is last accseed                            |
+| modifiedAt    | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the file was last modified                          |
+| changedAt     | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the file was last changed                           |
+| createdAt     | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Date&color=9cf)                   | the date when the filewas created                                 |
+| deviceID      | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Number&color=yellow)              |  the device id                                                    |
+| isWriteable   | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | it's true when the file is writeable                              |
+| isReadable    | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | it's true when the file is readable                               |
+| isExecuteable | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=Boolean&color=blue)               | it's true when the file is executeable                            |
+| dirName       | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the dir name of the file                                          |
+| root          | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the root of the file                                              |
+| ext           | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the extension of the file                                         |
+| baseName      | ![<div style="display:none;"></div>](https://img.shields.io/static/v1.svg?label=%20&message=String&color=brightgreen)         | the name with extion of the file                                  |
 
 NOTE: changing any of this attrs will not efect the file
 please use the methods bellow
@@ -261,7 +261,7 @@ file.convertEncoding('ascii');
 | changedAt  | Date         | the date when the dir is last changed      |
 | createdAt  | Date         | the date when the dir is created           |
 | deviceID   | number       | the device ID                              |
-## examples
+## example
 ```js
 const { Dir } = require('fs-pro');
 // or
@@ -338,7 +338,7 @@ dir.copyFilesFrom('$dist');
 // it will move every file and dir to ./
 dir.deleteContainer();
 ```
-### rename( newName: string )
+### rename( newName: string  )
 ```js
 // it will rename the dir
 dir.rename('$newName')

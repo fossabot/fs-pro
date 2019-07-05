@@ -1,7 +1,7 @@
 import { Dir as SyncDir } from "../src/index";
 
 export class Dir extends SyncDir {
-    constructor(name: string, trak: boolean = true) {
+    constructor(name: string, trak?: boolean) {
         super(name, trak);
         // @ts-ignore
         const dir = new SyncDir(name, false);
@@ -21,5 +21,3 @@ export class Dir extends SyncDir {
         }
     }
 }
-
-export default Dir;

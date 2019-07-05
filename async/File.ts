@@ -1,7 +1,7 @@
 import { File as SyncFile } from "../src/index";
 
 export class File extends SyncFile {
-    constructor(name: string, trak: boolean = true) {
+    constructor(name: string, trak?: boolean) {
         super(name, trak);
         // @ts-ignore
         const file = new SyncFile(name, false);
