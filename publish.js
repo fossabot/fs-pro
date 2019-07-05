@@ -1,4 +1,4 @@
-console.log(process.argv);
+
 
 const cp = require('child_process');
 
@@ -38,7 +38,7 @@ async function go() {
 
         file.write(JSON.stringify(json));
 
-        console.log(num1, num2, num3);
+        
 
         await compiled();
 
@@ -69,7 +69,7 @@ async function go() {
         }
 
     } catch (err) {
-        console.log(err);
+        
         restore()
     }
 }
@@ -79,12 +79,12 @@ const compiled = () => {
     return new Promise((res, rej) => {
         cp.exec('tsc test --outdir out ', function (err, stdout, sterr) {
             if (err) {
-                console.log(sterr);
+                
                 rej();
                 return
             }
             cp.execSync('cd async && tsc index --outdir out && cd ..');
-            console.log("---------- compiled the files ------------");
+            
             res();
         });
     })
@@ -94,12 +94,12 @@ const test = () => {
     return new Promise((res, rej) => {
         cp.exec('npm test', function (err, stdout, sterr) {
             if (err) {
-                console.log(sterr);
+                
                 rej();
                 return
             }
-            console.log(stdout);
-            console.log('------------ tested ----------------------');
+            
+            
             res();
         });
     });
@@ -118,23 +118,23 @@ function restore() {
     json.version = newV;
 
     file.write(JSON.stringify(json));
-    console.log("--------------- failed ---------------------");
+    
 }
 
 
 function Push() {
     cp.execSync('git push github master');
-    console.log("------------- pushed to github ------------");
+    
 }
 
 function add() {
     cp.execSync('git add -A');
-    console.log("----------- add the files to get ---------");
+    
 }
 
 function commit() {
     cp.execSync('git commit -a -m \"Initial Commit\"');
-    console.log("------------ commited the changes --------")
+    
 }
 
 function publish(tag) {
@@ -144,6 +144,6 @@ function publish(tag) {
     } else {
         cp.execSync(`npm publish`);
     }
-    console.log("------------- succesfly published ----------");
+    
 }
 go();
