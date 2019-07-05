@@ -3,34 +3,34 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { convertSize } from 'convert-size';
 
-type DirWatchCallBack = (file: File) => any;
-type callback = (file: File) => any;
+type DirWatchCallBack = (file: File) => undefined;
+type callback = (file: File) => File;
 
 export default class Dir {
-    files: any[] = [];
-    path: string;
-    name: string;
-    size: string;
-    accessedAt: Date;
-    modifiedAt: Date;
-    changedAt: Date;
-    createdAt: Date;
-    deviceID: number;
-    trak: boolean;
+    public files: any[] = [];
+    public path: string;
+    public name: string;
+    public size: string;
+    public accessedAt: Date;
+    public modifiedAt: Date;
+    public changedAt: Date;
+    public createdAt: Date;
+    public deviceID: number;
+    public trak: boolean;
 
     constructor(name: string, trak: boolean = true) {
         this.path = path.resolve(name);
         this.name = path.parse(this.path).base;
         this.trak = trak;
         if (fs.existsSync(this.path)) {
-            var arr = fs.readdirSync(this.path);
-            for (let item of arr) {
+            const arr = fs.readdirSync(this.path);
+            for (const item of arr) {
                 // @ts-ignore
                 var p = path.join(name, item);
                 if (fs.lstatSync(p).isDirectory()) {
                     this.files.push(new Dir(p, trak))
                 } else {
-                    var file = new File(p, trak);
+                    const file = new File(p, trak);
                     this.files.push(file);
                 }
             }
@@ -39,16 +39,8 @@ export default class Dir {
         }
         this.updateStatus();
     }
-    reTrak(): void {
-        this.foreachFile(file => file.trak = true);
-        this.trak = false
-    }
-    unTrak(): void {
-        this.foreachFile(file => file.trak = false);
-        this.trak = false
-    }
     /**
-    * @param dirs the dirs names
+        * @param dirs the dirs names
     */
     public static multiple(dirs: string[], trak: boolean = true): Dir[] {
         let arr = [];
@@ -58,20 +50,27 @@ export default class Dir {
         return arr;
     }
 
-    private updateStatus() {
-        var status = fs.lstatSync(this.path);
-        this.size = convertSize(status.size);
-        this.accessedAt = status.atime;
-        this.modifiedAt = status.mtime;
-        this.changedAt = status.ctime;
-        this.createdAt = status.birthtime;
-        this.deviceID = status.dev;
+    public reTrak(): void {
+        this.foreachFile(file => {
+            file.trak = true;
+            return file;
+        });
+        this.trak = false
     }
+
+    public unTrak(): void {
+        this.foreachFile(file => {
+            file.trak = true;
+            return file;
+        });
+        this.trak = false
+    }
+
     /**
      * this method will move the files inside the dir to 
-     * @param dist the dist
+     * @param {string} dist the dist
      */
-    moveFilesTo(dist) {
+    public moveFilesTo(dist: string): void {
         this.copyFilesTo(dist);
         this.delete();
         fs.mkdirSync(this.path);
@@ -79,26 +78,26 @@ export default class Dir {
     /**
      * will move the file from the dist to 
      * the dir
-     * @param dist the dist you want to getthe files from
+     * @param {string} dist the dist you want to getthe files from
      */
-    moveFilesFrom(dist) {
-        var dir = new Dir(dist);
+    public moveFilesFrom(dist: string): void {
+        const dir = new Dir(dist);
         dir.moveFilesTo(this.path);
     }
     /**
      * will copy the file from the dist to the dir
-     * @param dist the dist you want to get the files from
+     * @param {string} dist the dist you want to get the files from
      */
-    copyFilesFrom(dist) {
-        var dir = new Dir(dist);
+    public copyFilesFrom(dist: string) {
+        const dir = new Dir(dist);
         dir.copyFilesTo(this.path);
     }
     /**
      * will loop throw every single file in the dir
      * and apply the callback to it
-     * @param func the callback function
+     * @param {callback} func the callback function
      */
-    foreachFile(func: callback): Dir {
+    public foreachFile(func: callback): Dir {
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] instanceof Dir) {
                 this.files[i].foreachFile(func);
@@ -113,10 +112,10 @@ export default class Dir {
     /**
      * this method will loop throw every single 
      * dir in the dir
-     * @param func the callback function and the method will
+     * @param {(dir: Dir) => any} func the callback function and the method will
      * pass in to it every single dir
      */
-    foreachDir(func: (dir: Dir) => any): Dir {
+    public foreachDir(func: (dir: Dir) => any): Dir {
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] instanceof Dir) {
                 this.files[i].foreachDir(func);
@@ -129,9 +128,9 @@ export default class Dir {
     /**
      * this method will loop throw the files in the first level
      * or in the dir not in any in it's sub dirs
-     * @param func a function that will passed in to it a file or a dir
+     * @param {(fileOrDir: File | Dir) => any} func a function that will passed in to it a file or a dir
      */
-    foreach(func: (fileOrDir: File | Dir) => any): Dir {
+    public foreach(func: (fileOrDir: File | Dir) => any): Dir {
         for (let i = 0; i < this.files.length; i++) {
             this.files[i] = func(this.files[i]);
         }
@@ -141,7 +140,7 @@ export default class Dir {
     /**
      * this method wil delete the dir no mater it's empty or not
      */
-    delete(): void {
+    public delete(): void {
         this.foreach(thing => thing.delete());
         try { fs.rmdirSync(this.path) } catch (err) { }
         this.files = [];
@@ -152,15 +151,15 @@ export default class Dir {
      * or with other words it will just move all 
      * the files a level up
      */
-    deleteContainer() {
+    public deleteContainer(): void {
         this.moveFilesTo('./');
         this.delete();
     }
     /**
      * this method will create a file in the dir
-     * @param name the name of the file
+     * @param {string} name the name of the file
      */
-    createFile(name): File {
+    public createFile(name: string): File {
         var newFile = new File(path.join(this.name, name), this.trak);
         this.files.push(newFile);
         this.updateStatus();
@@ -170,11 +169,11 @@ export default class Dir {
      * the method will get the file with the the name
      * if there is a lot of files with the same name
      * the method will return the first match
-     * @param name the of the file you want to get
+     * @param {string} name the of the file you want to get
      */
-    getFile(name): File {
+    public getFile(name: string): File {
         var files: File[];
-        this.foreachFile(function (file) {
+        this.foreachFile(file => {
             if (file.baseName === name) {
                 files.push(file);
             }
@@ -184,11 +183,11 @@ export default class Dir {
     }
     /**
      * this method will get all of the files with the name
-     * @param name the name
+     * @param {String} name the name
      */
-    getFiles(name): File[] {
+    public getFiles(name: String): File[] {
         var files = [];
-        this.foreachFile(function (file) {
+        this.foreachFile(file => {
             if (file.baseName === name) {
                 files.push(file);
             }
@@ -200,9 +199,9 @@ export default class Dir {
      * will delete a file with name that have been passed in
      * and if there multimple files with the same name will
      * delete the first match
-     * @param name the name of the file you want to delete
+     * @param {String} name the name of the file you want to delete
      */
-    deleteFile(name): Dir {
+    public deleteFile(name: string): Dir {
         var file = this.files.filter(item => item.baseName === name)[0];
         this.files = this.files.filter(item => item === file);
         file.delete();
@@ -213,15 +212,15 @@ export default class Dir {
      * this method will delete every thing with the name
      * passed in BUT if the name is something like *.txt
      * it delete every single FILE that mathes the name
-     * @param name the name you want to delete
+     * @param {string} name the name you want to delete
      */
-    deleteEvery(name: string): Dir {
+    public deleteEvery(name: string): Dir {
         if (name.indexOf('*') !== -1) {
-            var regex = /\*/g;
+            const regex = /\*/g;
             name = name.replace(/\./g, '\\.');
-            var match = regex.exec(name);
-            var pI = 0;
-            var str = '';
+            let match = regex.exec(name);
+            let pI = 0;
+            let str = '';
             while (match) {
                 str += name.substring(pI, match['index']);
                 str += '[^.]';
@@ -234,6 +233,7 @@ export default class Dir {
                 if (newRegex.test(file.baseName)) {
                     file.delete();
                 }
+                return file;
             });
         } else {
             this.filter(thing => thing.name !== name);
@@ -244,9 +244,9 @@ export default class Dir {
     /**
      * this method will move the dir and every thing in it
      * to th dist
-     * @param dist the dist that you want to move the file to it
+     * @param {string} dist the dist that you want to move the file to it
      */
-    moveTo(dist): Dir {
+    public moveTo(dist: string): Dir {
         var thisDir = new Dir(this.name);
         this.copyTo(dist);
         thisDir.delete();
@@ -256,9 +256,9 @@ export default class Dir {
     }
     /**
      * this method will copy the dir to the dist passed in
-     * @param dist the dist
+     * @param {string} dist the dist
      */
-    copyTo(dist): Dir {
+    public copyTo(dist: string): Dir {
         var p = path.resolve(path.join(dist, this.name));
         if (!fs.existsSync(p)) {
             fs.mkdirSync(p);
@@ -269,8 +269,9 @@ export default class Dir {
     /**
      * this method will copy the files in the dir
      * and NOT the dir it self to the dist passed in
+     * @param {string} dist the dist you want to copy the files to
      */
-    copyFilesTo(dist): Dir {
+    public copyFilesTo(dist: string): Dir {
         var p = path.resolve(dist);
         if (!fs.existsSync(p)) {
             fs.mkdirSync(p);
@@ -288,9 +289,9 @@ export default class Dir {
     }
     /**
      * this method renames the dir to the name passed in
-     * @param newName the new name of the dir
+     * @param {string} newName the new name of the dir
      */
-    rename(newName): Dir {
+    public rename(newName: string): Dir {
         fs.renameSync(this.path, path.resolve(newName));
         this.name = newName;
         this.path = path.resolve(newName);
@@ -301,7 +302,7 @@ export default class Dir {
      * this method delete every thing in the dir and
      * NOT the dir it self
      */
-    clear(): Dir {
+    public clear(): Dir {
         this.foreach(thing => thing.delete());
         this.files = [];
         this.size = convertSize(0);
@@ -310,14 +311,14 @@ export default class Dir {
     /**
      * this method return the relative path of the dir
      */
-    relativePath(): string {
+    public relativePath(): string {
         return path.relative('.', this.path);
     }
     /**
      * this method will create a dir inside the dir
-     * @param name the name of the dir you want to create
+     * @param {string} name the name of the dir you want to create
      */
-    createDir(name): Dir {
+    public createDir(name: string): Dir {
         var newDir = new Dir(path.join(this.name, name), this.trak);
         this.files.push(newDir);
         this.updateStatus();
@@ -326,10 +327,10 @@ export default class Dir {
     /**
      * this method will find the dirs that matches the 
      * name passed in and return the first one 
-     * @param name the name of the dir you want to get
+     * @param {string} name the name of the dir you want to get
      */
-    getDir(name): Dir {
-        var dirs: Dir[];
+    public getDir(name: string): Dir {
+        const dirs: Dir[] = [];
         this.foreachDir(function (dir) {
             if (dir.name === name) {
                 dirs.push(dir);
@@ -341,10 +342,10 @@ export default class Dir {
     /**
      * this method will find every single dir mathes the name 
      * and return thoose as an array
-     * @param name the name of the dirs you want to get
+     * @param {string} name the name of the dirs you want to get
      */
-    getDirs(name): Dir[] {
-        var dirs: Dir[];
+    public getDirs(name: string): Dir[] {
+        const dirs: Dir[] = [];
         this.foreachDir(function (dir) {
             if (dir.name === name) {
                 dirs.push(dir);
@@ -358,11 +359,11 @@ export default class Dir {
      * in the dir and pass that in to the function that
      * have been passed in if it return false it will
      * delete the file or dir
-     * @param func a function that will passed in to it 
+     * @param {(thing: File | Dir) => boolean} func a function that will passed in to it
      * every single file or dir in the dir
      */
-    filter(func: (thing: File | Dir) => boolean): Dir {
-        var newFiles = [];
+    public filter(func: (thing: File | Dir) => boolean): Dir {
+        const newFiles = [];
         for (let i = 0; i < this.files.length; i++) {
             if (func(this.files[i])) {
                 if (this.files[i] instanceof Dir) {
@@ -381,16 +382,26 @@ export default class Dir {
      * the method will watch every single file in the dir
      * and when a file is modified it will pass in
      * that file to the callback
-     * @param func the callback
+     * @param {DirWatchCallBack} func the callback
      */
-    watch(func: DirWatchCallBack): void {
+    public watch(func: DirWatchCallBack): void {
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] instanceof Dir) {
                 this.files[i].watch(func);
             } else {
-                let file = this.files[i];
+                const file = this.files[i];
                 file.watch(() => func(file));
             }
         }
+    }
+
+    private updateStatus(): void {
+        var status = fs.lstatSync(this.path);
+        this.size = convertSize(status.size);
+        this.accessedAt = status.atime;
+        this.modifiedAt = status.mtime;
+        this.changedAt = status.ctime;
+        this.createdAt = status.birthtime;
+        this.deviceID = status.dev;
     }
 }

@@ -2,125 +2,105 @@ import * as fs from 'fs';
 import * as path from 'path';
 import Dir from './Dir';
 import { convertStatus } from "convert-status";
+import chardet = require('chardet');
+import encoding = require('encoding');
 
-const chardet = require('chardet');
-const encoding = require('encoding');
+type callback = (value: string, lineNumber: number) => string | undefined;
 
-type callback = (value: string, lineNumber: number) => any;
+type Mode = 'none' | 'read write execute' | 'read write' |
+    'all' | 'read execute' | 'write execute' |
+    'read only' | 'write only' | 'execute only' | number;
 
-type Mode = 'none' | 'read write execute' | 'read write' | 'all' | 'read execute' | 'write execute' | 'read only' | 'write only' | 'execute only' | number;
-
-type FileWatchCallBack = (currentStatus, prevStatus) => any;
+type FileWatchCallBack = (currentStatus, prevStatus) => void;
 
 type accessMode = 'execute' | 'write' | 'read' | 'all'
 
-type WriteStreamOptions = {
-    flags?: string,
-    encoding?: string,
-    fd?: number,
-    mode?: number,
-    autoClose?: boolean,
-    start?: number
-}
-
-type ReadStreamOptions = {
-    flags?: string,
-    encoding?: string,
-    fd?: number,
-    mode?: number,
-    autoClose?: boolean,
-    start?: number,
-    end?: number,
-    hightWaterMark?: number
-}
-
-
 // @ts-ignore
-export default class File {
+export class File {
     /** the name of the file without the extension */
-    name: string;
+    public name: string;
     /** the absoulte path for the file */
-    path: string;
+    public path: string;
     /** the encoding of the file the default is utf8 */
-    encoding: string;
+    public encoding: string;
     /** the file as a buffer */
-    buffer: Buffer;
+    public buffer: Buffer;
     /** the content of the file */
-    content: any;
+    public content: any;
     /** the lines of the file */
-    lines: any[];
+    public lines: any[];
     /** the line count of the file */
-    lineCount: any;
+    public lineCount: any;
     /** the size of the file */
-    size: any;
+    public size: any;
     /** the time when the file is last accessed */
-    accessedAt: Date;
+    public accessedAt: Date;
     /** the time when the file is last modified */
-    modifiedAt: Date;
+    public modifiedAt: Date;
     /** the time when the file changed at */
-    changedAt: Date;
+    public changedAt: Date;
     /** the time when the file was crteae */
-    createdAt: Date;
+    public createdAt: Date;
     /** the device id */
-    deviceID: number;
+    public deviceID: number;
     /** it's true when the file is writeable */
-    isWriteable: boolean;
+    public isWriteable: boolean;
     /** it's readable when the file is Readable */
-    isReadable: boolean;
+    public isReadable: boolean;
     /** it's true when the file is Excutable */
     isExecuteable: boolean;
     /** the Dirname fo the file */
-    dirName: string;
+    public dirName: string;
     /** the Root of the file */
-    root: string;
+    public root: string;
     /** the Extension of the file */
-    ext: string;
+    public ext: string;
     /** the file name of the file inculding the Ext */
-    baseName: string;
+    public baseName: string;
     /** it's true when the file is others Executeable */
-    isOtherExecuteable: boolean;
+    public isOtherExecuteable: boolean;
     /** it's true when the file is others Readable */
-    isOtherReadable: boolean;
+    public isOtherReadable: boolean;
     /** it's true when the file is others writeable */
-    isOtherWriteable: boolean;
+    public isOtherWriteable: boolean;
     /** it's true when the file is group Executeable */
-    isGroupExecuteable: boolean;
+    public isGroupExecuteable: boolean;
     /** it's true when the file is group Readable */
-    isGroupReadable: boolean;
+    public isGroupReadable: boolean;
     /** it's true when the file is group Writable */
-    isGroupWriteable: boolean;
+    public isGroupWriteable: boolean;
     /** it's true when the file is owner Readable */
-    isOwnerReadable: boolean;
+    public isOwnerReadable: boolean;
     /** it's true when the file is owner writeable */
-    isOwnerWriteable: boolean;
+    public isOwnerWriteable: boolean;
     /**it's true when the file is owner Executeable */
-    isOwnerExecuteable: boolean;
+    public isOwnerExecuteable: boolean;
     /** the size of each block in the file  */
-    blockSize: number;
+    public blockSize: number;
     /** the block count in the fike */
-    blocks: number;
+    public blocks: number;
     /** it's true when the file is a Blocked Deviced */
-    isBlockDevice: boolean;
+    public isBlockDevice: boolean;
     /** it's true when the file is a Character Device */
-    isCharacterDevice: boolean;
+    public isCharacterDevice: boolean;
     /** it's true when the file is a  Symbolic Link */
-    isSymbolicLink: boolean;
+    public isSymbolicLink: boolean;
     /** it's true when the file is FIFO */
-    isFIFO: boolean;
+    public isFIFO: boolean;
     /** it's true when the file is a Socket */
-    isSocket: boolean;
+    public isSocket: boolean;
     /** the Device Identifier of the file */
-    deviceIdentifier: number;
+    public deviceIdentifier: number;
     /** the groupIdentifier of the file */
-    groupIdentifier: number;
+    public groupIdentifier: number;
     /** the Inode of the file */
-    Inode: number;
+    public Inode: number;
     /** the Hard Links of the file */
-    hardLinks: number;
+    public hardLinks: number;
     /** the User Identifier of the file */
-    userIdentifier: number;
+    public userIdentifier: number;
     /** when it's true it will keep trak of some attrs like content */
-    trak: boolean;
+    public trak: boolean;
 
     constructor(name: string, trak: boolean = true, enconding?: BufferEncoding) {
         this.setPath(path.resolve(name));
@@ -534,3 +514,5 @@ export default class File {
         }
     }
 }
+
+export default File;
