@@ -143,7 +143,20 @@ export class File {
         }
     }
     /**
-     * this method will move you file to the dist you pass in
+    * this method will get the files you want to
+    * work with as an array
+    * @param {string[]} files the files you want to work with
+    * @param {boolean} trak the trak of all of them
+    */
+    public static multiple(files: string[], trak: boolean): File[] {
+        const arr = [];
+        for (const item of files) {
+            arr.push(new File(item, trak));
+        }
+        return arr;
+    }
+    /**
+     * this method will move you file to the dist you pass in        
      * @param {string} dist the dist that you want the file to be moved to
      */
     public moveTo(dist: string): void {
@@ -234,7 +247,7 @@ export class File {
      * this method will of append another file content to the file
      * @param {string | File | Buffer} dist the path of the file the you wanna append from
      */
-    public appendContentFrom(dist: String | File | Buffer): File {
+    public appendContentFrom(dist: string | File | Buffer): File {
         if (typeof dist === 'string') {
             const distFile = new File(dist);
             this.append(distFile.read());
@@ -267,13 +280,11 @@ export class File {
      * @param {string | Buffer} content the content you wanna append
      */
     public append(content: Buffer | string): File {
-        if (content instanceof Buffer) {
-            content = content.toString();
-        }
+        let cont = content.toString();
         try {
-            fs.appendFileSync(this.path, content);
+            fs.appendFileSync(this.path, cont);
             if (this.trak) {
-                this.content += content;
+                this.content += cont;
                 this.lines = this.content.split('\n');
                 this.lineCount = this.lines.length;
                 this.buffer = Buffer.from(this.content);
@@ -351,7 +362,7 @@ export class File {
     /**
      * this will 
      */
-    public Lines(): any[] {
+    public Lines(): string[] {
         try {
             return this.read().toString().split('\n')
         } catch (err) {
@@ -392,7 +403,7 @@ export class File {
      * this method will refresh the all the 
      * attr in the file no mater what trak attr is 
      */
-    public refresh() {
+    public refresh(): void {
         if (this.trak) {
             this.trak = true;
             this.read();
@@ -405,7 +416,7 @@ export class File {
      * this method will rename the file 
      * @param {string} newName the new name
      */
-    public rename(newName: string) {
+    public rename(newName: string): void {
         fs.renameSync(this.path, newName);
         this.setPath(path.resolve(newName));
     }
@@ -414,7 +425,7 @@ export class File {
      * to the callback the status of the file currently and previously
      * @param {FileWatchCallBack} func the callback
      */
-    public watch(func: FileWatchCallBack) {
+    public watch(func: FileWatchCallBack): void {
         fs.watchFile(this.path, (curr, prev) => {
             this.refresh();
             func(convertStatus(curr), convertStatus(prev));
@@ -424,7 +435,7 @@ export class File {
      * will move to the dir that passed in
      * @param {Dir| string} dir the dir could be a Dir status or a path for it
      */
-    public parent(dir: Dir | string) {
+    public parent(dir: Dir | string): void {
         if (dir instanceof Dir) {
             this.moveTo(dir.relativePath());
         } else {
@@ -443,7 +454,7 @@ export class File {
      * this method will convert the file encoding
      * @param {BufferEncoding} newEncoding the new eoding
      */
-    public convertEncoding(newEncoding: BufferEncoding) {
+    public convertEncoding(newEncoding: BufferEncoding): void {
         if (!Buffer.isEncoding(newEncoding)) {
             throw new Error('Invalid Encoding');
         }
@@ -463,7 +474,7 @@ export class File {
         }
     }
     /** if the file is json it will parse it and return it */
-    public toJson(): Object {
+    public toJson(): {} {
         const con = this.read();
         try {
             return JSON.parse(con.toString());
@@ -472,7 +483,7 @@ export class File {
         }
     }
 
-    private setPath(dist: string) {
+    private setPath(dist: string): void {
         this.path = dist;
         const obj = path.parse(this.path);
         this.baseName = obj.base;
@@ -505,19 +516,6 @@ export class File {
     private status(): fs.Stats {
         const stat = fs.statSync(this.path);
         return stat;
-    }
-    /**
-    * this method will get the files you want to
-    * work with as an array
-    * @param {string[]} files the files you want to work with
-    * @param {boolean} trak the trak of all of them
-    */
-    public static multiple(files: string[], trak: boolean): File[] {
-        const arr = [];
-        for (let item of files) {
-            arr.push(new File(item, trak));
-        }
-        return arr;
     }
 }
 
