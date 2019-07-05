@@ -1,18 +1,18 @@
-import { File as SyncFile } from "../src/index";
-import Dir from "./Dir";
+import { Dir as SyncDir } from "../src/index";
 
-class File extends SyncFile {
+class Dir extends SyncDir {
     constructor(name: string, trak: boolean = true) {
         super(name, trak);
         // @ts-ignore
-        const file = new SyncFile(name, false);
+        const dir = new SyncDir(name, false);
+
         //@ts-ignore
         for (const key in this.__proto__) {
             //@ts-ignore
             this.__proto__[key] = (p1, p2, p3) =>
                 new Promise((res, rej) => {
                     try {
-                        const data = file[key](p1, p2, p3);
+                        const data = dir[key](p1, p2, p3);
                         res(data);
                     } catch (err) {
                         rej(err);
@@ -22,6 +22,4 @@ class File extends SyncFile {
     }
 }
 
-export { File, Dir }
-
-module.exports = { File, Dir };
+export default Dir;
