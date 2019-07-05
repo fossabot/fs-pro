@@ -11,7 +11,7 @@ type Mode = 'none' | 'read write execute' | 'read write' |
     'all' | 'read execute' | 'write execute' |
     'read only' | 'write only' | 'execute only' | number;
 
-type FileWatchCallBack = (currentStatus, prevStatus) => void;
+type FileWatchCallBack = (currentStatus, prevStatus) => undefined;
 
 type accessMode = 'execute' | 'write' | 'read' | 'all'
 
@@ -102,7 +102,7 @@ export class File {
     /** when it's true it will keep trak of some attrs like content */
     public trak: boolean;
 
-    constructor(name: string, trak = true, enconding?: BufferEncoding) {
+    constructor(name: string, trak?: boolean, enconding?: BufferEncoding) {
         this.setPath(path.resolve(name));
         this.trak = trak;
         if (fs.existsSync(this.path) && trak) {
@@ -260,7 +260,7 @@ export class File {
     public getContentFrom(dist: string | File | Buffer): File {
         if (typeof dist === 'string') {
             const distFile = new File(dist);
-            this.write(distFile.content);
+            this.write(distFile.read());
         }
         if (dist instanceof File) {
             this.write(dist.read());
@@ -277,7 +277,7 @@ export class File {
     public appendContentFrom(dist: String | File | Buffer): File {
         if (typeof dist === 'string') {
             const distFile = new File(dist);
-            this.append(distFile.content);
+            this.append(distFile.read());
         }
         if (dist instanceof File) {
             this.append(dist.read());
