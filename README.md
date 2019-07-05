@@ -292,17 +292,17 @@ dirs.forEach(dir => console.log(dir.path));
 // it will delete the dir no matter it's empty or not
 dir.delete()
 ```
-### clear( )
+### clear()
 ```js
 // it will delete every thing in the dir except the dir
 dir.clear()
 ```
-### copyTo( dist: string ) 
+### copyTo(dist: string) 
 ```js
 // it will copy the dir to the dist
 dir.copyTo('$dist')
 ```
-### moveTo( dist: string )
+### moveTo(dist: string)
 ``` js
 // it will move the dir to the dist
 dir.moveTo('$dist')

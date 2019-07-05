@@ -88,7 +88,7 @@ export class Dir {
      * will copy the file from the dist to the dir
      * @param {string} dist the dist you want to get the files from
      */
-    public copyFilesFrom(dist: string) {
+    public copyFilesFrom(dist: string): void {
         const dir = new Dir(dist);
         dir.copyFilesTo(this.path);
     }
@@ -115,7 +115,7 @@ export class Dir {
      * @param {(dir: Dir) => any} func the callback function and the method will
      * pass in to it every single dir
      */
-    public foreachDir(func: (dir: Dir) => any): Dir {
+    public foreachDir(func: (dir: Dir) => Dir | undefined): Dir {
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] instanceof Dir) {
                 this.files[i].foreachDir(func);
@@ -184,9 +184,9 @@ export class Dir {
     }
     /**
      * this method will get all of the files with the name
-     * @param {String} name the name
+     * @param {string} name the name
      */
-    public getFiles(name: String): File[] {
+    public getFiles(name: string): File[] {
         const files = [];
         this.foreachFile(file => {
             if (file.baseName === name) {
