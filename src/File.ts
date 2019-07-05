@@ -2,8 +2,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import Dir from './Dir';
 import { convertStatus } from "convert-status";
-import chardet = require('chardet');
-import encoding = require('encoding');
+import chardet from 'chardet';
+import encoding from 'encoding';
 
 type callback = (value: string, lineNumber: number) => string | undefined;
 
@@ -26,13 +26,13 @@ export class File {
     /** the file as a buffer */
     public buffer: Buffer;
     /** the content of the file */
-    public content: any;
+    public content: string;
     /** the lines of the file */
-    public lines: any[];
+    public lines: string[];
     /** the line count of the file */
-    public lineCount: any;
+    public lineCount: number;
     /** the size of the file */
-    public size: any;
+    public size: string;
     /** the time when the file is last accessed */
     public accessedAt: Date;
     /** the time when the file is last modified */
@@ -104,6 +104,7 @@ export class File {
 
     constructor(name: string, trak: boolean = true, enconding?: BufferEncoding) {
         this.setPath(path.resolve(name));
+        if (trak === undefined) trak = true;
         this.trak = trak;
         if (fs.existsSync(this.path) && trak) {
 
@@ -120,7 +121,7 @@ export class File {
             this.lines = this.content.split('\n');
             this.lineCount = this.lines.length;
             this.editStatus();
-            var encode = chardet.detect(this.buffer);
+            const encode = chardet.detect(this.buffer);
             this.encoding = encode;
             return;
         }
@@ -145,16 +146,19 @@ export class File {
     /**
      * this method will get the files you want to
      * work with as an array
-     * @param files the files you want to work with
+     * @param {string[]} files the files you want to work with
+     * @param {boolean} trak the trak of all of them
      */
-    public static multiple(files: string[], trak: boolean = true): File[] {
+    public static multiple(files: string[], trak: boolean): File[] {
         var arr = [];
+        if (trak === undefined) trak = true;
         for (let item of files) {
             arr.push(new File(item, trak));
         }
         return arr;
     }
-    private setPath(dist) {
+
+    private setPath(dist: string) {
         this.path = dist;
         var obj = path.parse(this.path);
         this.baseName = obj.base;
@@ -165,9 +169,9 @@ export class File {
     }
     /**
      * this method will move you file to the dist you pass in
-     * @param dist the dist that you want the file to be moved to
+     * @param {string} dist the dist that you want the file to be moved to
      */
-    moveTo(dist) {
+    public moveTo(dist: string) {
         this.copyTo(dist);
         this.delete(true);
         this.setPath(path.resolve(path.join(dist, this.baseName)));
@@ -176,17 +180,17 @@ export class File {
     /**
      * this method will reutrn the relative path of the file
      */
-    relativePath() {
+    public relativePath(): string {
         return path.relative('.', this.path);
     }
-    private editStatus() {
+    private editStatus(): void {
         this.isWriteable = this.testAccess('write');
         this.isReadable = this.testAccess('read');
         this.isExecuteable = this.testAccess('execute');
         const status = convertStatus(this.status());
         for (const key in status) {
             if (status.hasOwnProperty(key) && key !== 'isDirectory' && key != 'isFile') {
-                let element = status[key];
+                const element = status[key];
                 this[key] = element;
             }
         }
@@ -197,9 +201,9 @@ export class File {
     }
     /**
      * this methods will change the mode of the file
-     * @param mode the mode code
+     * @param {number} mode the mode code
      */
-    chmod(mode: number): File {
+    public chmod(mode: number): File {
         fs.chmodSync(this.path, mode);
         this.editStatus();
         return this;
@@ -207,9 +211,9 @@ export class File {
     /**
      * this method will test the access you want
      * the default is 'read write execute'
-     * @param mode the mode you want to test
+     * @param {accessMode | number} mode the mode you want to test
      */
-    testAccess(mode: accessMode | number): boolean {
+    public testAccess(mode: accessMode | number): boolean {
         var code;
         if (mode === 'all' || !mode) {
             code = 7;
@@ -233,17 +237,17 @@ export class File {
     /**
      * this method will copy the file file to with a differnt
      * name 
-     * @param dist the dist you want to copy the file to it should like this 'dist/newName'
+     * @param {string} dist the dist you want to copy the file to it should like this 'dist/newName'
      */
-    copy(dist): File {
+    public copy(dist: string): File {
         fs.copyFileSync(this.path, dist);
         return this;
     }
     /**
      * this method will copy the file to the dist with the same name
-     * @param dist the dist you want to copy the file to 
+     * @param {string} dist the dist you want to copy the file to 
      */
-    copyTo(dist): File {
+    public copyTo(dist: string): File {
         fs.copyFileSync(this.path, path.join(dist, this.baseName));
         this.editStatus();
         return this;
@@ -252,9 +256,9 @@ export class File {
      * this methods will copy the conent of another file to the file
      * NOTE: it will overwrite the file if you dont that
      * use appendContentFrom()
-     * @param dist the path of the file you want to get the conent from
+     * @param {string | File | Buffer} dist the path of the file you want to get the conent from
      */
-    getContentFrom(dist: string | File | Buffer): File {
+    public getContentFrom(dist: string | File | Buffer): File {
         if (typeof dist === 'string') {
             var distFile = new File(dist);
             this.write(distFile.content);
@@ -269,9 +273,9 @@ export class File {
     }
     /**
      * this method will of append another file content to the file
-     * @param dist the path of the file the you wanna append from
+     * @param {string | File | Buffer} dist the path of the file the you wanna append from
      */
-    appendContentFrom(dist: String | File | Buffer): File {
+    public appendContentFrom(dist: String | File | Buffer): File {
         if (typeof dist === 'string') {
             var distFile = new File(dist);
             this.append(distFile.content);
@@ -292,9 +296,9 @@ export class File {
     }
     /**
      * this method will delete the file
-     * @param set ignore this passing any thing could cause errors
+     * @param {boolean} set ignore this passing any thing could cause errors
      */
-    delete(set?): File {
+    public delete(set?: boolean): File {
         try {
             fs.unlinkSync(this.path);
             set ? null : this.setDefault()
@@ -307,9 +311,9 @@ export class File {
      * this method will append to the file what ever
      * is passed in if you wanna append another file content
      * use appendContentFrom()
-     * @param content the content you wanna append
+     * @param {string | Buffer} content the content you wanna append
      */
-    append(content: Buffer | string): File {
+    public append(content: Buffer | string): File {
         if (content instanceof Buffer) {
             content = content.toString();
         }
@@ -331,7 +335,7 @@ export class File {
     /**
      * this method will clear the file
      */
-    clear(): File {
+    public clear(): File {
         try {
             fs.writeFileSync(this.path, '');
             this.content = '';
@@ -348,9 +352,9 @@ export class File {
      * this method will write to write to the file what if is passed
      * in
      * NOTE: this method will overwrite file content
-     * @param content the content you want to append
+     * @param {string | Buffer} content the content you want to append
      */
-    write(content: Buffer | string): File {
+    public write(content: Buffer | string): File {
         try {
             fs.writeFileSync(this.path, content);
             if (this.trak) {
@@ -375,9 +379,9 @@ export class File {
     /**
      * this method will read the file content and return it
      */
-    read(): any {
+    public read(): string | Buffer {
         try {
-            var data = fs.readFileSync(this.path);
+            const data = fs.readFileSync(this.path);
             this.encoding = chardet.detect(data);
             this.buffer = data;
             this.editStatus();
@@ -394,7 +398,7 @@ export class File {
     /**
      * this will 
      */
-    Lines(): any[] {
+    public Lines(): any[] {
         try {
             return this.read().toString().split('\n')
         } catch (err) {
@@ -404,10 +408,10 @@ export class File {
     /**
      * this method will loop throw the file lines
      * and apply a function passed in to it
-     * @param func a function that will passed in to it the line text and 
+     * @param {callback} func a function that will passed in to it the line text and 
      * the line number
      */
-    readLines(func: callback): File {
+    public readLines(func: callback): File {
         try {
             var arr = this.read().toString().split('\n')
         } catch (err) {
@@ -434,7 +438,7 @@ export class File {
      * this method will refresh the all the 
      * attr in the file no mater what trak attr is 
      */
-    refresh() {
+    public refresh() {
         if (this.trak) {
             this.trak = true;
             this.read();
@@ -445,18 +449,18 @@ export class File {
     }
     /**
      * this method will rename the file 
-     * @param newName the new name
+     * @param {string} newName the new name
      */
-    rename(newName: string, noExt?) {
+    public rename(newName: string) {
         fs.renameSync(this.path, newName);
         this.setPath(path.resolve(newName));
     }
     /**
      * this function will wacth the file and pass in
      * to the callback the status of the file currently and previously
-     * @param func the callback
+     * @param {FileWatchCallBack} func the callback
      */
-    watch(func: FileWatchCallBack) {
+    public watch(func: FileWatchCallBack) {
         fs.watchFile(this.path, (curr, prev) => {
             this.refresh();
             func(convertStatus(curr), convertStatus(prev));
@@ -464,9 +468,9 @@ export class File {
     }
     /**
      * will move to the dir that passed in
-     * @param dir the dir could be a Dir status or a path for it
+     * @param {Dir| string} dir the dir could be a Dir status or a path for it
      */
-    parent(dir: Dir | string) {
+    public parent(dir: Dir | string) {
         if (dir instanceof Dir) {
             this.moveTo(dir.relativePath());
         } else {
@@ -478,20 +482,20 @@ export class File {
     /**
      * this method will return the parent dir of the File
      */
-    parentDir(): Dir {
+    public parentDir(): Dir {
         return new Dir(this.path);
     }
     /**
      * this method will convert the file encoding
-     * @param newEncoding the new eoding
+     * @param {BufferEncoding} newEncoding the new eoding
      */
-    convertEncoding(newEncoding: BufferEncoding) {
+    public convertEncoding(newEncoding: BufferEncoding) {
         if (!Buffer.isEncoding(newEncoding)) {
             throw new Error('Invalid Encoding');
         }
         try {
             if (!this.trak) {
-                var encode = chardet.detect(Buffer.from(this.read()), { sampleSize: 32 });
+                var encode = chardet.detect(Buffer.from(this.read().toString()), { sampleSize: 32 });
                 this.encoding = encode;
             }
             const newBuffer = encoding.convert(this.buffer, this.encoding, newEncoding, true);
@@ -505,10 +509,10 @@ export class File {
         }
     }
     /** if the file is json it will parse it and return it */
-    toJson(): Object {
+    public toJson(): Object {
         const con = this.read();
         try {
-            return JSON.parse(con);
+            return JSON.parse(con.toString());
         } catch (err) {
             throw err
         }
