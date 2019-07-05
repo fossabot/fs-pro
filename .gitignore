@@ -64,3 +64,5 @@ typings/
 test.*
 *.txt
 test/
+
+publish.js
