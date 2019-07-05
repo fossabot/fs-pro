@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import  {Dir} from './Dir';
+import { Dir } from './Dir';
 import { convertStatus } from "convert-status";
-import chardet from 'chardet';
-import encoding from 'encoding';
+const chardet = require("chardet");
+const encoding = require("encoding");
 
 type callback = (value: string, lineNumber: number) => string | undefined;
 
