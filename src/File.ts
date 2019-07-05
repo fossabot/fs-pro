@@ -2,14 +2,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Dir } from './Dir';
 import { convertStatus } from "convert-status";
+
 const chardet = require("chardet");
 const encoding = require("encoding");
 
 type callback = (value: string, lineNumber: number) => string | undefined;
-
-type Mode = 'none' | 'read write execute' | 'read write' |
-    'all' | 'read execute' | 'write execute' |
-    'read only' | 'write only' | 'execute only' | number;
 
 type FileWatchCallBack = (currentStatus, prevStatus) => undefined;
 
@@ -105,8 +102,8 @@ export class File {
     constructor(name: string, trak?: boolean, enconding?: BufferEncoding) {
         this.setPath(path.resolve(name));
         this.trak = trak;
-        if (fs.existsSync(this.path) && trak) {
-
+        const exits = fs.existsSync(this.path);
+        if (exits && trak) {
             try {
                 this.buffer = fs.readFileSync(this.path);
             } catch (err) {
@@ -119,19 +116,16 @@ export class File {
             this.content = this.buffer.toString();
             this.lines = this.content.split('\n');
             this.lineCount = this.lines.length;
-            this.editStatus();
             const encode = chardet.detect(this.buffer);
             this.encoding = encode;
-            return;
         }
-        if (fs.existsSync(this.path) && !trak) {
+        if (exits && !trak) {
             this.encoding = 'UTF-8';
             this.setDefault();
-            return;
         }
-        this.setDefault();
-        fs.writeFileSync(this.path, '');
-        this.editStatus();
+        if (!exits) {
+            fs.writeFileSync(this.path, '');
+        }
         if (enconding) {
             if (Buffer.isEncoding(enconding)) {
                 this.encoding = enconding;
@@ -141,6 +135,7 @@ export class File {
         } else {
             this.encoding = 'UTF-8'
         }
+        this.editStatus();
     }
     /**
     * this method will get the files you want to
