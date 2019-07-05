@@ -1,4 +1,4 @@
-import File from './File';
+import { File } from './File';
 import * as fs from 'fs';
 import * as path from 'path';
 import { convertSize } from 'convert-size';
@@ -6,7 +6,7 @@ import { convertSize } from 'convert-size';
 type DirWatchCallBack = (file: File) => undefined;
 type callback = (file: File) => File;
 
-export default class Dir {
+export class Dir {
     public files: any[] = [];
     public path: string;
     public name: string;
