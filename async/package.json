@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git+https://github.com/AliBasicCoder/fs-pro.git"
   },
+  "scripts": {
+    "compile": "tsc index --outdir out"
+  },
   "keywords": [
     "fs-pro",
     "async"
