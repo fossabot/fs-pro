@@ -174,7 +174,7 @@ file.readLines(function(lineText, lineNumber){
     }
 })
 ```
-### clear()
+### clear( )
 ``` js
 // to clear the files
 file.clear();

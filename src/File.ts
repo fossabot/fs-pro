@@ -280,7 +280,7 @@ export class File {
             fs.appendFileSync(this.path, cont);
             if (this.trak) {
                 this.content += cont;
-                this.lines = this.content.split('\n');
+                this.lines = this.content.toString().split('\n');
                 this.lineCount = this.lines.length;
                 this.buffer = Buffer.from(this.content);
             }
