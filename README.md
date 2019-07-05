@@ -7,14 +7,14 @@
 
 fs-pro is a package to work with files and dir more easly
 
-# installtion
+## installtion
 ```
 npm i fs-pro
 ```
 
-# what's new 
+## what's new 
 
-## async
+### async
 
 now you can use the whole package with promisess
 ``` js
@@ -38,8 +38,8 @@ run()
 
 
 
-# working with Files
-## the file class attr
+## working with Files
+### the file class attr
 
 | attr          | type                                                                                          | decription                                                        |
 | :--------:    | :----------------------------------------------------------------------------:                |  :------------------------------------------------------------:   |
@@ -79,28 +79,7 @@ import { File } from 'fs-pro';
 var file = new File('something.txt')
 
 ```
-### TIP
-if you ar working with big files and don't want over memory 
-usage you can pass in false and this will not 
-update buffer, content, lines and lineCout attrs 
-when you use any if the File methods
-execpt the refresh method
-``` js
-var file = new File('something.txt', false);
-// if you want to update that attrs 
-file.refresh();
-// and if you want to trak that attrs alawas again
-file.trak = true;
-```
-and the there is an options for Dir
-``` js
-// this dir files will not trak buffer, content, lines and lineCout attrs
-var dir = new Dir('someDir', false);
-// if you want to make the dir file trak again
-dir.reTrak();
-// if you want to make the dir don't trak
-dir.unTrak();  
-```
+
 ### methods mixing
 ```js
 // you can call methods like this
@@ -269,7 +248,8 @@ var dir = file.parentDir();
 ``` js
 file.convertEncoding('ascii');
 ```
-# working with Dirs
+## working with Dirs
+
 ## Dir class attr
 | attr       | type         | decription                                 |
 | :--------: | :----:       |  :--------:                                |
@@ -471,7 +451,7 @@ const { accessedAt,
 var rPath = dir.relativePath()
 ```
 
-# License
+## License
 
 MIT License
 
