@@ -102,9 +102,8 @@ export class File {
     /** when it's true it will keep trak of some attrs like content */
     public trak: boolean;
 
-    constructor(name: string, trak: boolean = true, enconding?: BufferEncoding) {
+    constructor(name: string, trak = true, enconding?: BufferEncoding) {
         this.setPath(path.resolve(name));
-        if (trak === undefined) trak = true;
         this.trak = trak;
         if (fs.existsSync(this.path) && trak) {
 
@@ -150,7 +149,7 @@ export class File {
      * @param {boolean} trak the trak of all of them
      */
     public static multiple(files: string[], trak: boolean): File[] {
-        var arr = [];
+        const arr = [];
         if (trak === undefined) trak = true;
         for (let item of files) {
             arr.push(new File(item, trak));
@@ -160,7 +159,7 @@ export class File {
 
     private setPath(dist: string) {
         this.path = dist;
-        var obj = path.parse(this.path);
+        const obj = path.parse(this.path);
         this.baseName = obj.base;
         this.name = obj.name;
         this.dirName = obj.dir;
@@ -214,7 +213,7 @@ export class File {
      * @param {accessMode | number} mode the mode you want to test
      */
     public testAccess(mode: accessMode | number): boolean {
-        var code;
+        let code;
         if (mode === 'all' || !mode) {
             code = 7;
         }
@@ -260,7 +259,7 @@ export class File {
      */
     public getContentFrom(dist: string | File | Buffer): File {
         if (typeof dist === 'string') {
-            var distFile = new File(dist);
+            const distFile = new File(dist);
             this.write(distFile.content);
         }
         if (dist instanceof File) {
@@ -277,7 +276,7 @@ export class File {
      */
     public appendContentFrom(dist: String | File | Buffer): File {
         if (typeof dist === 'string') {
-            var distFile = new File(dist);
+            const distFile = new File(dist);
             this.append(distFile.content);
         }
         if (dist instanceof File) {
@@ -412,8 +411,9 @@ export class File {
      * the line number
      */
     public readLines(func: callback): File {
+        let arr = [];
         try {
-            var arr = this.read().toString().split('\n')
+            arr = this.read().toString().split('\n')
         } catch (err) {
             throw err;
         }
@@ -421,7 +421,7 @@ export class File {
             arr[i] = func(arr[i], i) + '\n';
         }
         arr.filter(item => item != null);
-        var content = arr.join('');
+        const content = arr.join('');
         try {
             fs.writeFileSync(this.path, content);
             this.content = content;
@@ -474,7 +474,7 @@ export class File {
         if (dir instanceof Dir) {
             this.moveTo(dir.relativePath());
         } else {
-            var p = path.resolve(dir);
+            const p = path.resolve(dir);
             this.moveTo(p);
         }
     }
@@ -495,7 +495,7 @@ export class File {
         }
         try {
             if (!this.trak) {
-                var encode = chardet.detect(Buffer.from(this.read().toString()), { sampleSize: 32 });
+                const encode = chardet.detect(Buffer.from(this.read().toString()), { sampleSize: 32 });
                 this.encoding = encode;
             }
             const newBuffer = encoding.convert(this.buffer, this.encoding, newEncoding, true);
