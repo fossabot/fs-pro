@@ -1,7 +1,7 @@
 # fs-pro
 
 [![npm](https://img.shields.io/npm/v/fs-pro.svg)](https://www.npmjs.com/package/fs-pro)
-[![LICENSE](https://img.shields.io/static/v1.svg?label=LICENSE&message=MIT&color=green)](https://github.com/AliBasicCoder/fs-pro/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/AliBasicCoder/fs-pro.svg)](https://github.com/AliBasicCoder/fs-pro/)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/fs-pro.svg?style=plastic)](https://bundlephobia.com/result?p=fs-pro@latest)
 [![npm](https://img.shields.io/npm/dm/fs-pro.svg)](https://www.npmjs.com/package/fs-pro)
 
