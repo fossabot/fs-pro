@@ -518,5 +518,3 @@ export class File {
         return stat;
     }
 }
-
-export default File;
