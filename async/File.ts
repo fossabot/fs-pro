@@ -1,6 +1,6 @@
 import { File as SyncFile } from "../src/index";
 
-class File extends SyncFile {
+export class File extends SyncFile {
     constructor(name: string, trak: boolean = true) {
         super(name, trak);
         // @ts-ignore
@@ -21,4 +21,3 @@ class File extends SyncFile {
     }
 }
 
-export default File;

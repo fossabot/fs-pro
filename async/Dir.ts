@@ -1,6 +1,6 @@
 import { Dir as SyncDir } from "../src/index";
 
-class Dir extends SyncDir {
+export class Dir extends SyncDir {
     constructor(name: string, trak: boolean = true) {
         super(name, trak);
         // @ts-ignore
