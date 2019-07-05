@@ -1,7 +1,7 @@
-import { File } from './File';
-import * as fs from 'fs';
-import * as path from 'path';
-import { convertSize } from 'convert-size';
+import { File } from "./File";
+import * as fs from "fs";
+import * as path from "path";
+import { convertSize } from "convert-size";
 
 type DirWatchCallBack = (file: File) => undefined;
 type callback = (file: File) => File;
@@ -18,7 +18,7 @@ export class Dir {
     public deviceID: number;
     public trak: boolean;
 
-    constructor(name: string, trak: boolean = true) {
+    constructor(name: string, trak?: boolean) {
         this.path = path.resolve(name);
         this.name = path.parse(this.path).base;
         this.trak = trak;
@@ -26,7 +26,7 @@ export class Dir {
             const arr = fs.readdirSync(this.path);
             for (const item of arr) {
                 // @ts-ignore
-                var p = path.join(name, item);
+                const p = path.join(name, item);
                 if (fs.lstatSync(p).isDirectory()) {
                     this.files.push(new Dir(p, trak))
                 } else {
@@ -42,9 +42,9 @@ export class Dir {
     /**
         * @param dirs the dirs names
     */
-    public static multiple(dirs: string[], trak: boolean = true): Dir[] {
-        let arr = [];
-        for (let item of dirs) {
+    public static multiple(dirs: string[], trak?: boolean): Dir[] {
+        const arr = [];
+        for (const item of dirs) {
             arr.push(new Dir(item, trak));
         }
         return arr;
@@ -127,7 +127,7 @@ export class Dir {
     }
     /**
      * this method will loop throw the files in the first level
-     * or in the dir not in any in it's sub dirs
+     * or in the dir not in any in it"s sub dirs
      * @param {(fileOrDir: File | Dir) => any} func a function that will passed in to it a file or a dir
      */
     public foreach(func: (fileOrDir: File | Dir) => any): Dir {
@@ -138,7 +138,7 @@ export class Dir {
         return this;
     }
     /**
-     * this method wil delete the dir no mater it's empty or not
+     * this method wil delete the dir no mater it"s empty or not
      */
     public delete(): void {
         this.foreach(thing => thing.delete());
@@ -152,7 +152,7 @@ export class Dir {
      * the files a level up
      */
     public deleteContainer(): void {
-        this.moveFilesTo('./');
+        this.moveFilesTo("./");
         this.delete();
     }
     /**
@@ -160,9 +160,10 @@ export class Dir {
      * @param {string} name the name of the file
      */
     public createFile(name: string): File {
-        var newFile = new File(path.join(this.name, name), this.trak);
+        const newFile = new File(path.join(this.name, name), this.trak);
         this.files.push(newFile);
         this.updateStatus();
+        // let
         return newFile;
     }
     /**
@@ -172,7 +173,7 @@ export class Dir {
      * @param {string} name the of the file you want to get
      */
     public getFile(name: string): File {
-        var files: File[];
+        const files: File[] = [];
         this.foreachFile(file => {
             if (file.baseName === name) {
                 files.push(file);
@@ -186,7 +187,7 @@ export class Dir {
      * @param {String} name the name
      */
     public getFiles(name: String): File[] {
-        var files = [];
+        const files = [];
         this.foreachFile(file => {
             if (file.baseName === name) {
                 files.push(file);
@@ -202,7 +203,7 @@ export class Dir {
      * @param {String} name the name of the file you want to delete
      */
     public deleteFile(name: string): Dir {
-        var file = this.files.filter(item => item.baseName === name)[0];
+        const file = this.files.filter(item => item.baseName === name)[0];
         this.files = this.files.filter(item => item === file);
         file.delete();
         this.updateStatus();
@@ -215,20 +216,20 @@ export class Dir {
      * @param {string} name the name you want to delete
      */
     public deleteEvery(name: string): Dir {
-        if (name.indexOf('*') !== -1) {
+        if (name.indexOf("*") !== -1) {
             const regex = /\*/g;
-            name = name.replace(/\./g, '\\.');
+            name = name.replace(/\./g, "\\.");
             let match = regex.exec(name);
             let pI = 0;
-            let str = '';
+            let str = "";
             while (match) {
-                str += name.substring(pI, match['index']);
-                str += '[^.]';
-                pI = match['index'] + 1;
+                str += name.substring(pI, match["index"]);
+                str += "[^.]";
+                pI = match["index"] + 1;
                 match = regex.exec(name);
             }
             str += name.substring(pI);
-            var newRegex = new RegExp(str, 'g');
+            const newRegex = new RegExp(str, "g");
             this.foreachFile(file => {
                 if (newRegex.test(file.baseName)) {
                     file.delete();
@@ -247,7 +248,7 @@ export class Dir {
      * @param {string} dist the dist that you want to move the file to it
      */
     public moveTo(dist: string): Dir {
-        var thisDir = new Dir(this.name);
+        const thisDir = new Dir(this.name);
         this.copyTo(dist);
         thisDir.delete();
         this.path = path.resolve(path.join(dist, this.name));
@@ -259,7 +260,7 @@ export class Dir {
      * @param {string} dist the dist
      */
     public copyTo(dist: string): Dir {
-        var p = path.resolve(path.join(dist, this.name));
+        const p = path.resolve(path.join(dist, this.name));
         if (!fs.existsSync(p)) {
             fs.mkdirSync(p);
         }
@@ -272,7 +273,7 @@ export class Dir {
      * @param {string} dist the dist you want to copy the files to
      */
     public copyFilesTo(dist: string): Dir {
-        var p = path.resolve(dist);
+        const p = path.resolve(dist);
         if (!fs.existsSync(p)) {
             fs.mkdirSync(p);
         }
@@ -312,14 +313,14 @@ export class Dir {
      * this method return the relative path of the dir
      */
     public relativePath(): string {
-        return path.relative('.', this.path);
+        return path.relative(".", this.path);
     }
     /**
      * this method will create a dir inside the dir
      * @param {string} name the name of the dir you want to create
      */
     public createDir(name: string): Dir {
-        var newDir = new Dir(path.join(this.name, name), this.trak);
+        const newDir = new Dir(path.join(this.name, name), this.trak);
         this.files.push(newDir);
         this.updateStatus();
         return newDir;
@@ -396,7 +397,7 @@ export class Dir {
     }
 
     private updateStatus(): void {
-        var status = fs.lstatSync(this.path);
+        const status = fs.lstatSync(this.path);
         this.size = convertSize(status.size);
         this.accessedAt = status.atime;
         this.modifiedAt = status.mtime;
