@@ -1,6 +1,6 @@
 {
   "name": "async",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "working with files easly and async",
   "main": "out/async/index.js",
   "repository": {
