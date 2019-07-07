@@ -1,3 +1,5 @@
+import { File, Dir } from './index';
+
 export interface Status {
     size: string;
     accessedAt: Date,
@@ -35,3 +37,15 @@ export type readLinesCallback = (value: string, lineNumber: number) => string | 
 export type FileWatchCallBack = (currentStatus: Status, prevStatus: Status) => undefined;
 
 export type accessMode = 'execute' | 'write' | 'read' | 'all'
+
+export type DirWatchCallBack = (file: File) => undefined;
+
+export type callback = (file: File) => File;
+
+export type foreachCallback = (fileOrDir: File | Dir) => any;
+
+export type foreachDirCallback = (dir: Dir) => Dir | undefined;
+
+export type DataLink = string | File | Buffer;
+
+export type filterCallback = (thing: File | Dir) => boolean;

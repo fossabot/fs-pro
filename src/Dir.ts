@@ -2,11 +2,10 @@ import { File } from "./File";
 import * as fs from "fs";
 import * as path from "path";
 import { convertSize } from "convert-size";
-
-type DirWatchCallBack = (file: File) => undefined;
-type callback = (file: File) => File;
+import { callback, DirWatchCallBack, foreachCallback, foreachDirCallback, filterCallback } from "./types";
 
 export class Dir {
+
     public files: any[] = [];
     public path: string;
     public name: string;
@@ -112,10 +111,10 @@ export class Dir {
     /**
      * this method will loop throw every single 
      * dir in the dir
-     * @param {(dir: Dir) => any} func the callback function and the method will
+     * @param {foreachDirCallback} func the callback function and the method will
      * pass in to it every single dir
      */
-    public foreachDir(func: (dir: Dir) => Dir | undefined): Dir {
+    public foreachDir(func: foreachDirCallback): Dir {
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i] instanceof Dir) {
                 this.files[i].foreachDir(func);
@@ -128,9 +127,9 @@ export class Dir {
     /**
      * this method will loop throw the files in the first level
      * or in the dir not in any in it"s sub dirs
-     * @param {(fileOrDir: File | Dir) => any} func a function that will passed in to it a file or a dir
+     * @param {foreachCallback} func a function that will passed in to it a file or a dir
      */
-    public foreach(func: (fileOrDir: File | Dir) => any): Dir {
+    public foreach(func: foreachCallback): Dir {
         for (let i = 0; i < this.files.length; i++) {
             this.files[i] = func(this.files[i]);
         }
@@ -360,10 +359,10 @@ export class Dir {
      * in the dir and pass that in to the function that
      * have been passed in if it return false it will
      * delete the file or dir
-     * @param {(thing: File | Dir) => boolean} func a function that will passed in to it
+     * @param {filterCallback} func a function that will passed in to it
      * every single file or dir in the dir
      */
-    public filter(func: (thing: File | Dir) => boolean): Dir {
+    public filter(func: filterCallback): Dir {
         const newFiles = [];
         for (let i = 0; i < this.files.length; i++) {
             if (func(this.files[i])) {

@@ -2,8 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Dir } from './Dir';
 import { convertStatus } from "convert-status";
-import { readLinesCallback, FileWatchCallBack, accessMode } from "./types";
-
+import { readLinesCallback, FileWatchCallBack, accessMode, DataLink } from "./types";
 
 const chardet = require("chardet");
 const encoding = require("encoding");
@@ -219,9 +218,9 @@ export class File {
      * this methods will copy the conent of another file to the file
      * NOTE: it will overwrite the file if you dont that
      * use appendContentFrom()
-     * @param {string | File | Buffer} dist the path of the file you want to get the conent from
+     * @param {DataLink} dist the path of the file you want to get the conent from
      */
-    public getContentFrom(dist: string | File | Buffer): File {
+    public getContentFrom(dist: DataLink): File {
         if (typeof dist === 'string') {
             const distFile = new File(dist);
             this.write(distFile.read());
@@ -236,9 +235,9 @@ export class File {
     }
     /**
      * this method will of append another file content to the file
-     * @param {string | File | Buffer} dist the path of the file the you wanna append from
+     * @param {DataLink} dist the path of the file the you wanna append from
      */
-    public appendContentFrom(dist: string | File | Buffer): File {
+    public appendContentFrom(dist: DataLink): File {
         if (typeof dist === 'string') {
             const distFile = new File(dist);
             this.append(distFile.read());
