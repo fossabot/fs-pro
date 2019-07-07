@@ -1,6 +1,8 @@
 import { File } from './File';
-import  { Dir } from './Dir';
+import { Dir } from './Dir';
+import { resolver } from "./resolver";
 
-export { File, Dir };
 
-module.exports = { File, Dir }
+export { File, Dir, resolver };
+
+module.exports = { File, Dir, resolver }

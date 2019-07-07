@@ -2,47 +2,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Dir } from './Dir';
 import { convertStatus } from "convert-status";
+import { readLinesCallback, FileWatchCallBack, accessMode } from "./types";
 
-interface Status {
-    size: string;
-    accessedAt: Date,
-    modifiedAt: Date;
-    changedAt: Date;
-    createdAt: Date;
-    deviceID: number;
-    isOtherExecuteable: boolean;
-    isOtherReadable: boolean;
-    isOtherWriteable: boolean;
-    isGroupExecuteable: boolean;
-    isGroupReadable: boolean;
-    isGroupWriteable: boolean;
-    isOwnerReadable: boolean;
-    isOwnerWriteable: boolean;
-    isOwnerExecuteable: boolean;
-    blockSize: number;
-    blocks: number;
-    isFile: boolean;
-    isDirectory: boolean;
-    isBlockDevice: boolean;
-    isCharacterDevice: boolean;
-    isSymbolicLink: boolean;
-    isFIFO: boolean;
-    isSocket: boolean;
-    deviceIdentifier: number;
-    groupIdentifier: number;
-    Inode: number;
-    hardLinks: number;
-    userIdentifier: number;
-}
 
 const chardet = require("chardet");
 const encoding = require("encoding");
-
-type callback = (value: string, lineNumber: number) => string | undefined;
-
-type FileWatchCallBack = (currentStatus: Status, prevStatus: Status) => undefined;
-
-type accessMode = 'execute' | 'write' | 'read' | 'all'
 
 // @ts-ignore
 export class File {
@@ -399,10 +363,10 @@ export class File {
     /**
      * this method will loop throw the file lines
      * and apply a function passed in to it
-     * @param {callback} func a function that will passed in to it the line text and 
+     * @param {readLinesCallback} func a function that will passed in to it the line text and 
      * the line number
      */
-    public readLines(func: callback): File {
+    public readLines(func: readLinesCallback): File {
         let arr = [];
         try {
             arr = this.read().toString().split('\n')
