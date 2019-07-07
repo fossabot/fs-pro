@@ -30,7 +30,7 @@ export interface Status {
     userIdentifier: number;
 }
 
-export type callback = (value: string, lineNumber: number) => string | undefined;
+export type readLinesCallback = (value: string, lineNumber: number) => string | undefined;
 
 export type FileWatchCallBack = (currentStatus: Status, prevStatus: Status) => undefined;
 
