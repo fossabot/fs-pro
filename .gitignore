@@ -65,4 +65,5 @@ test.*
 *.txt
 test/
 
-publish.js
+*.js
+res
