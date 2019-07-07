@@ -278,8 +278,8 @@ export class File {
                 this.lines = this.content.toString().split('\n');
                 this.lineCount = this.lines.length;
                 this.buffer = Buffer.from(this.content);
+                this.encoding = chardet.detect(this.buffer);
             }
-            this.encoding = chardet.detect(this.buffer);
             this.editStatus();
         } catch (err) {
             throw err
