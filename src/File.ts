@@ -119,10 +119,7 @@ export class File {
         }
         if (exits) {
             if (fs.statSync(this.path).isDirectory()) {
-                var err = new Error("this path is not a file");
-                // @ts-ignore
-                err.code = "NOT_FILE";
-                throw err;
+                throw new Error("this path is not a file");
             }
         }
         if (exits && !trak) {
