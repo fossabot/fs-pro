@@ -20,4 +20,11 @@ export class Dir extends SyncDir {
                 })
         }
     }
+    public static multiple(dirs: string[], trak?: boolean): Dir[] {
+        const arr = [];
+        for (const item of dirs) {
+            arr.push(new Dir(item, trak));
+        }
+        return arr;
+    }
 }

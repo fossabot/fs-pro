@@ -11,7 +11,8 @@
         "test": "mocha out/test",
         "compile": "tsc test --outdir out && npm run compile --prefix async",
         "ctest": "npm run compile && npm test && rmdir /Q /s test && del test.txt",
-        "saveGit": "git add -A && git commit -a -m \"Intial commit\" "
+        "saveGit": "git add -A && git commit -a -m \"Intial commit\" ",
+        "rout": "rmdir /Q /s out && cd async && rmdir /Q /s out && cd .."
     },
     "keywords": [
         "fs",

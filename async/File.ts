@@ -19,5 +19,12 @@ export class File extends SyncFile {
                 })
         }
     }
+        public static multiple(files: string[], trak: boolean): File[] {
+        const arr = [];
+        for (const item of files) {
+            arr.push(new File(item, trak));
+        }
+        return arr;
+    }
 }
 
