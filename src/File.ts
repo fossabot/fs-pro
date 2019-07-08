@@ -103,10 +103,10 @@ export class File {
                 this.buffer = fs.readFileSync(this.path);
             } catch (err) {
                 if (err.code === 'EISDIR') {
-                    var err = new Error("this path is not a file");
+                    var newerr = new Error("this path is not a file");
                     // @ts-ignore
-                    err.code = "NOT_FILE";
-                    throw err;
+                    newerr.code = "NOT_FILE";
+                    throw newerr;
                 } else {
                     throw err;
                 }
@@ -119,7 +119,10 @@ export class File {
         }
         if (exits) {
             if (fs.statSync(this.path).isDirectory()) {
-                throw new Error("this path is not a file");
+                var newerr = new Error("this path is not a file");
+                // @ts-ignore
+                newerr.code = "NOT_FILE";
+                throw newerr;
             }
         }
         if (exits && !trak) {
