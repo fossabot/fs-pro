@@ -13,7 +13,25 @@ npm i fs-pro
 ```
 ## what's new 
 
-### async
+### resolver
+this class will help you get info of a path
+
+``` js
+// this method will get you the info of a file or dir 
+var info = resolver.Info('some.txt');
+info.isFile === true
+// the method will see if the path if the file it
+// will return a File else if will return a Dir
+var fileOrDir = resolver.resolve('something.txt');
+
+if(fileOrDir instanceof File){
+    fileOrDir.write('hello world');
+} else {
+    fileOrDir.createFile('some.txt');
+}
+```
+
+## async
 
 now you can use the whole package with promisess
 ``` js
@@ -34,8 +52,6 @@ async function run(){
 run()
 
 ```
-
-
 
 ## working with Files
 ### the file class attr

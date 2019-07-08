@@ -103,7 +103,10 @@ export class File {
                 this.buffer = fs.readFileSync(this.path);
             } catch (err) {
                 if (err.code === 'EISDIR') {
-                    throw new Error('this path is not a file')
+                    var err = new Error("this path is not a file");
+                    // @ts-ignore
+                    err.code = "NOT_FILE";
+                    throw err;
                 } else {
                     throw err;
                 }
@@ -113,6 +116,14 @@ export class File {
             this.lineCount = this.lines.length;
             const encode = chardet.detect(this.buffer);
             this.encoding = encode;
+        }
+        if (exits) {
+            if (fs.statSync(this.path).isDirectory()) {
+                var err = new Error("this path is not a file");
+                // @ts-ignore
+                err.code = "NOT_FILE";
+                throw err;
+            }
         }
         if (exits && !trak) {
             this.encoding = 'UTF-8';
@@ -125,7 +136,7 @@ export class File {
             if (Buffer.isEncoding(enconding)) {
                 this.encoding = enconding;
             } else {
-                throw new Error('Invalid Encoding')
+                throw new Error('Invalid_Encoding')
             }
         } else {
             this.encoding = 'UTF-8'

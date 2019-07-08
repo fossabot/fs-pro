@@ -22,6 +22,12 @@ export class Dir {
         this.name = path.parse(this.path).base;
         this.trak = trak;
         if (fs.existsSync(this.path)) {
+            if (!fs.statSync(this.path).isDirectory()) {
+                var err = new Error("this path is not a dir");
+                // @ts-ignore
+                err.code = "NOT_DIR";
+                throw err;
+            }
             const arr = fs.readdirSync(this.path);
             for (const item of arr) {
                 // @ts-ignore
