@@ -216,12 +216,12 @@ file.watch((currentStatus, prevStatus) => {
     // wathever you want
 })
 ```
-### delete()
+### <div style="color:rgb(220, 212, 114);display:inline">delete</div>()
 ```js
 // to delete the file
 file.delete();
 ```
-### parent( parent: Dir | string )
+### <div style="color:rgb(220, 212, 114);display:inline">parent</div>( parent: <div style="color:rgb(11, 131, 11);display:inline">Dir</div> | <div style="color:rgb(11, 131, 11);display:inline">string</div> )
 ```js
 // to move the file to a dir 
 const { File, Dir } = require('fs-pro');
@@ -275,10 +275,9 @@ var dir = new dir('something')
 ```js
 // just as file you can mix about 75% of the methods below
 // the 25% is methods for delete and to get a file and so on
+// you should alawas return the file or it will delete it  
 dir
-    .foreachFile(function(file){
-        console.log(file.path)
-    })
+    .foreachFile(file => { console.log(file.path); return file; })
     .copyTo('dist') // and so on
 ```
 ### Dir.multiple( dirs: string[] ): Dir[]
