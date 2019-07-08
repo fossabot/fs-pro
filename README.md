@@ -216,12 +216,12 @@ file.watch((currentStatus, prevStatus) => {
     // wathever you want
 })
 ```
-### <div style="color:rgb(220, 212, 114);display:inline">delete</div>()
+### <div style="color:#dcdcaa;display:inline">delete</div>()
 ```js
 // to delete the file
 file.delete();
 ```
-### <div style="color:rgb(220, 212, 114);display:inline">parent</div>( parent: <div style="color:rgb(11, 131, 11);display:inline">Dir</div> | <div style="color:rgb(11, 131, 11);display:inline">string</div> )
+### <div style="color:#dcdcaa;display:inline">parent</div>(<div style="color:#9cdcfe;display:inline">parent</div>: <div style="color:#52c94e;display:inline">Dir</div> | <div style="color:#52c94e;display:inline">string</div>)
 ```js
 // to move the file to a dir 
 const { File, Dir } = require('fs-pro');
