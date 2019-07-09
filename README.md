@@ -4,6 +4,7 @@
 [![GitHub](https://img.shields.io/github/license/AliBasicCoder/fs-pro.svg)](https://github.com/AliBasicCoder/fs-pro/)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/fs-pro.svg?style=plastic)](https://bundlephobia.com/result?p=fs-pro@latest)
 [![npm](https://img.shields.io/npm/dm/fs-pro.svg)](https://www.npmjs.com/package/fs-pro)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAliBasicCoder%2Ffs-pro.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FAliBasicCoder%2Ffs-pro?ref=badge_shield)
 
 fs-pro is a package to work with files and dir more easly
 
@@ -488,3 +489,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAliBasicCoder%2Ffs-pro.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FAliBasicCoder%2Ffs-pro?ref=badge_large)
